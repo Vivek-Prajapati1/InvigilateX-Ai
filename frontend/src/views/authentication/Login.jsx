@@ -4,6 +4,7 @@ import { Grid, Box, Card, Stack, Typography, CircularProgress } from '@mui/mater
 
 import PageContainer from '../../components/container/PageContainer';
 import Logo from '../../layouts/full/shared/logo/Logo';
+import ExamShieldLogo from '../../components/shared/ExamShieldLogo';
 import AuthLogin from './auth/AuthLogin';
 
 import { useFormik } from 'formik';
@@ -68,26 +69,28 @@ const Login = () => {
   };
 
   return (
-<PageContainer title="Login" description="this is Login page">
-  <Box
-    sx={{
-      position: "relative",
-      height: "100vh",
-      overflow: "hidden",
-      background: "linear-gradient(to right, rgb(31, 24, 131), rgb(87, 34, 37))",
-    }}
-  >
-    <Grid container spacing={0} alignItems="center" sx={{ height: "100%" }}>
-      <Grid item xs={12}>
+    <PageContainer title="Login" description="this is Login page">
+      <Box
+        sx={{
+          position: "relative",
+          minHeight: "100vh",
+          overflow: "hidden",
+          background: "linear-gradient(to right, rgb(31, 24, 131), rgb(87, 34, 37))",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          px: { xs: 2, sm: 3, md: 4 },
+          py: { xs: 3, sm: 4 },
+        }}
+      >
         <Card
           elevation={9}
           sx={{
             p: 0,
             zIndex: 7,
             width: "100%",
-            maxWidth: "900px",
-            mx: "300px",
-            borderRadius: 10,
+            maxWidth: { xs: "100%", sm: "500px", md: "900px" },
+            borderRadius: { xs: 8, md: 10 },
             textAlign: "left",
             background: "linear-gradient(120deg, #fff 70%, #ed93c7 100%)",
             border: "2px solid #c52d84",
@@ -95,7 +98,7 @@ const Login = () => {
             overflow: "visible",
           }}
         >
-          <Grid container spacing={0} alignItems="stretch" sx={{ minHeight: 400 }}>
+          <Grid container spacing={0} alignItems="stretch" sx={{ minHeight: { xs: "auto", md: 400 } }}>
             {/* Left Side - Form */}
             <Grid
               item
@@ -106,22 +109,23 @@ const Login = () => {
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                px: 5,
-                py: 4,
+                px: { xs: 3, sm: 4, md: 5 },
+                py: { xs: 3, sm: 4 },
                 background: "linear-gradient(135deg, #fff 60%, #41bcba 100%)",
-                borderTopLeftRadius: 10,
-                borderBottomLeftRadius: 10,
-                boxShadow: "2px 0 16px 0 #41bcba22",
+                borderTopLeftRadius: { xs: 8, md: 10 },
+                borderBottomLeftRadius: { xs: 0, md: 10 },
+                borderTopRightRadius: { xs: 8, md: 0 },
+                boxShadow: { xs: "none", md: "2px 0 16px 0 #41bcba22" },
               }}
             >
               {/* Logo + Title */}
               <Box mb={2} textAlign="center">
                 <Box
                   sx={{
-                    width: 70,
-                    height: 70,
+                    width: { xs: 60, sm: 70 },
+                    height: { xs: 60, sm: 70 },
                     mx: "auto",
-                    mb: 10,
+                    mb: { xs: 1, sm: 2 },
                     borderRadius: "50%",
                     background: "linear-gradient(135deg, #c52d84 0%, #ed93c7 100%)",
                     display: "flex",
@@ -131,24 +135,23 @@ const Login = () => {
                     boxShadow: "0 2px 8px #c52d8455",
                   }}
                 >
-                  <img
-                    src="/logo.png"
-                    alt="Exam Eye Logo"
-                    style={{
-                      width: "80%",
-                      height: "80%",
-                      objectFit: "contain",
+                  <ExamShieldLogo
+                    variant="icon"
+                    width={{ xs: 100, sm: 120 }}
+                    height={{ xs: 100, sm: 120 }}
+                    sx={{
+                      filter: 'drop-shadow(0 2px 8px rgba(197, 45, 132, 0.3))'
                     }}
                   />
                 </Box>
                 <Typography
-                  variant="h4"
+                  variant={{ xs: "h5", sm: "h4" }}
                   fontWeight="bold"
                   color="#c52d84"
                   textAlign="center"
                   sx={{ textShadow: "1px 1px 8px #ed93c7" }}
                 >
-                  Exam Eye
+                  ExamShield
                 </Typography>
               </Box>
 
@@ -157,7 +160,7 @@ const Login = () => {
                 formik={formik}
                 subtext={
                   <Typography
-                    variant="subtitle1"
+                    variant={{ xs: "body2", sm: "subtitle1" }}
                     textAlign="center"
                     color="textSecondary"
                     mb={1}
@@ -168,7 +171,7 @@ const Login = () => {
                 subtitle={
                   <Stack direction="row" spacing={1} justifyContent="center" mt={3}>
                     <Typography color="textSecondary" variant="body2">
-                      New to Exam Eye?
+                      New to ExamShield?
                     </Typography>
                     <Typography
                       component={Link}
@@ -261,13 +264,92 @@ const Login = () => {
                 Smart Login for Online Exam Monitoring
               </Typography>
             </Grid>
+
+            {/* Right Side - Image */}
+            <Grid
+              item
+              xs={12}
+              md={6}
+              sx={{
+                display: { xs: "none", md: "flex" },
+                alignItems: "center",
+                justifyContent: "center",
+                background: "linear-gradient(45deg, #41bcba 0%, #159fc1 100%)",
+                borderTopRightRadius: 10,
+                borderBottomRightRadius: 10,
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  px: 3,
+                }}
+              >
+                {/* <Box
+                  component="img"
+                  src="/register.png"
+                  alt="Secure Login"
+                  className="auth-page-image"
+                  sx={{
+                    width: { xs: "240px", md: "280px" },
+                    height: { xs: "240px", md: "280px" },
+                    objectFit: "contain",
+                    mb: 3,
+                    borderRadius: 3,
+                    boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
+                    background: "#fff",
+                  }}
+                /> */}
+                {/* <Typography
+                  variant="h5"
+                  color="#fff"
+                  sx={{
+                    fontWeight: 700,
+                    textShadow: "1px 1px 8px #159fc1, 0 0 2px #41bcba",
+                    letterSpacing: 1,
+                    textAlign: "center",
+                  }}
+                >
+                  Smart Login for Online Exam Monitoring
+                </Typography> */}
+              </Box>
+            </Grid>
+
+            {/* Mobile Banner */}
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: { xs: "block", md: "none" },
+                textAlign: "center",
+                py: 2,
+                background: "linear-gradient(45deg, #41bcba 0%, #159fc1 100%)",
+                borderBottomLeftRadius: 8,
+                borderBottomRightRadius: 8,
+              }}
+            >
+              {/* <Typography
+                variant="body2"
+                color="#fff"
+                sx={{
+                  fontWeight: 600,
+                  textShadow: "1px 1px 4px rgba(0,0,0,0.3)",
+                }}
+              >
+                🛡️ Smart Login for Online Exam Monitoring
+              </Typography> */}
+            </Grid>
           </Grid>
         </Card>
-      </Grid>
-    </Grid>
-  </Box>
-</PageContainer>
-
+      </Box>
+    </PageContainer>
   );
 };
 

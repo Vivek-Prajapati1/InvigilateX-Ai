@@ -208,10 +208,10 @@ const DescriptionAndInstructions = () => {
         </Box>
       </Fade>
 
-      <Slide direction="down" in={showContent} timeout={800}>
+      <Slide direction="down" in={showContent} timeout={600}>
         <Box>
           {/* Header Section */}
-          <Box sx={{ mb: 0 }}>
+          <Box sx={{ mb: 0, mt: 5 }}>
             <Zoom in={showContent} timeout={1000}>
               <Typography 
                 variant="h3" 
@@ -226,7 +226,7 @@ const DescriptionAndInstructions = () => {
                   textShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 }}
               >
-               Welcome To ExamEyes
+               Welcome To ExamShield
               </Typography>
             </Zoom>
             

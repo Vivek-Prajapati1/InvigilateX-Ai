@@ -1,0 +1,42 @@
+/* Responsive Authentication Pages */
+@media (max-width: 768px) {
+  /* Ensure images are responsive on mobile */
+  .auth-page-image {
+    max-width: 100% !important;
+    height: auto !important;
+    width: auto !important;
+  }
+  
+  /* Ensure cards don't overflow on small screens */
+  .MuiCard-root {
+    margin: 1rem !important;
+    max-width: calc(100vw - 2rem) !important;
+  }
+  
+  /* Better spacing for mobile forms */
+  .MuiGrid-item {
+    padding: 0.5rem !important;
+  }
+}
+
+/* General responsive improvements */
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure proper viewport handling */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Better mobile experience */
+@media (max-width: 600px) {
+  .MuiTypography-h4 {
+    font-size: 1.5rem !important;
+  }
+  
+  .MuiTypography-h5 {
+    font-size: 1.25rem !important;
+  }
+}

@@ -12,9 +12,11 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import { useNavigate } from 'react-router-dom';
 
 // components
 import Profile from './Profile';
+import ExamShieldLogo from '../../../components/shared/ExamShieldLogo';
 import { IconBellRinging, IconMenu } from '@tabler/icons-react';
 import { useSelector } from 'react-redux';
 
@@ -22,6 +24,16 @@ const Header = (props) => {
   // const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   // const lgDown = useMediaQuery((theme) => theme.breakpoints.down('lg'));
   const { userInfo } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    // Navigate based on user role
+    if (userInfo?.role === 'teacher') {
+      navigate('/dashboard');
+    } else {
+      navigate('/dashboard');
+    }
+  };
 
   const AppBarStyled = styled(AppBar)(({ theme }) => ({
     boxShadow: '2px',
@@ -39,14 +51,39 @@ const Header = (props) => {
 
   return (
     <AppBarStyled
-      position="sticky"
+      position="fixed"
       color="default"
       sx={{
         background: '#41bcba',
-        
+        zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
       <ToolbarStyled>
+        {/* Brand Logo */}
+        <Box 
+          sx={{ 
+            display: { xs: 'none', md: 'block' }, 
+            mr: 1,
+            cursor: 'pointer',
+            '&:hover': {
+              opacity: 0.8
+            }
+          }}
+          onClick={handleLogoClick}
+        >
+          <ExamShieldLogo 
+            variant="compact" 
+            width={160} 
+            height={65}
+            sx={{ 
+              filter: 'brightness(1.5) saturate(1.2) contrast(1.2)',
+              '& svg': {
+                filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.4))'
+              }
+            }}
+          />
+        </Box>
+        
         <IconButton
           color="inherit"
           aria-label="menu"

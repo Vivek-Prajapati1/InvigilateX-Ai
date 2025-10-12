@@ -655,7 +655,7 @@ export default function Coder() {
           <Box sx={{ display: "flex", alignItems: "center", mr: 4 }}>
             <CodeIcon sx={{ color: "#ffa116", fontSize: 28, mr: 1 }} />
             <Typography variant="h6" sx={{ fontWeight: "bold", color: "#ffffff" }}>
-              ExamEye
+              ExamShield
             </Typography>
           </Box>
 
@@ -745,7 +745,7 @@ export default function Coder() {
         </Box>
 
         {/* Action Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: 2 }}>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, ml: 2 ,mt: 5}}>
           <Button
             variant="outlined"
             onClick={runCode}

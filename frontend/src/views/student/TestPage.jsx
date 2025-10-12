@@ -354,7 +354,7 @@ const TestPage = () => {
     >
       {/* Enhanced Header Section */}
       <Slide direction="down" in={showContent} timeout={800}>
-        <Box sx={{ mb: 2, px: 3 }}>
+        <Box sx={{ mb: 2, px: 3, mt: 9 }}>
           <Grid container spacing={8} alignItems="center">
             {/* Main Header */}
             <Grid item xs={12} lg={isMobile ? 12 : 6}>

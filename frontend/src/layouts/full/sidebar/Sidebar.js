@@ -1,10 +1,23 @@
 import { useMediaQuery, Box, Drawer } from '@mui/material';
-import Logo from '../shared/logo/Logo';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import ExamShieldLogo from '../../../components/shared/ExamShieldLogo';
 import SidebarItems from './SidebarItems';
 // import { Upgrade } from './Updrade';
 
 const Sidebar = (props) => {
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('md'));
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
+
+  const handleLogoClick = () => {
+    // Navigate based on user role
+    if (userInfo?.role === 'teacher') {
+      navigate('/teacher/dashboard');
+    } else {
+      navigate('/dashboard');
+    }
+  };
 
   const sidebarWidth = '270px';
 
@@ -27,6 +40,10 @@ const Sidebar = (props) => {
             sx: {
               width: sidebarWidth,
               boxSizing: 'border-box',
+              top: '70px', // Position below fixed header
+              height: 'calc(100% - 70px)', // Adjust height to account for header
+              backgroundColor: '#ffffff', // Ensure white background
+              color: '#333333', // Dark text for readability
             },
           }}
         >
@@ -36,14 +53,9 @@ const Sidebar = (props) => {
           <Box
             sx={{
               height: '100%',
+              pt: 2, // Add padding top for better spacing
             }}
           >
-            {/* ------------------------------------------- */}
-            {/* Logo */}
-            {/* ------------------------------------------- */}
-            <Box px={3}>
-              <Logo />
-            </Box>
             <Box>
               {/* ------------------------------------------- */}
               {/* Sidebar Items */}
@@ -67,14 +79,34 @@ const Sidebar = (props) => {
         sx: {
           width: sidebarWidth,
           boxShadow: (theme) => theme.shadows[8],
+          backgroundColor: '#ffffff', // White background for mobile sidebar
+          color: '#333333', // Dark text for readability
         },
       }}
     >
       {/* ------------------------------------------- */}
       {/* Logo */}
       {/* ------------------------------------------- */}
-      <Box px={2}>
-        <Logo />
+      <Box 
+        px={2} 
+        py={3} 
+        sx={{ 
+          borderBottom: '1px solid #e0e0e0',
+          cursor: 'pointer',
+          '&:hover': {
+            backgroundColor: '#f5f5f5'
+          }
+        }}
+        onClick={handleLogoClick}
+      >
+        <ExamShieldLogo 
+          variant="compact" 
+          width={130} 
+          height={55}
+          sx={{
+            filter: 'brightness(1) contrast(1.1)',
+          }}
+        />
       </Box>
       {/* ------------------------------------------- */}
       {/* Sidebar For Mobile */}

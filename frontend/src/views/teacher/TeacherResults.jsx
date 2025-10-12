@@ -317,7 +317,7 @@ const TeacherResults = () => {
                           <Chip 
                             size="small" 
                             color={percentage >= 60 ? 'success' : 'warning'} 
-                            label={percentage >= 60 ? 'Completed' : 'Completed'} 
+                            label={percentage >= 60 ? 'Completed' : 'Failed'} 
                             sx={{ minWidth: '85px' }}
                           />
                         )}

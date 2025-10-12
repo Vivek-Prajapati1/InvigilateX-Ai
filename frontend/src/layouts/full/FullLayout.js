@@ -18,6 +18,7 @@ const PageWrapper = styled('div')(() => ({
   flexDirection: 'column',
   zIndex: 1,
   backgroundColor: 'transparent',
+  marginTop: '70px', // Add margin-top for fixed header
 }));
 
 const FullLayout = () => {
@@ -51,7 +52,7 @@ const FullLayout = () => {
         {/* ------------------------------------------- */}
         <Container
           sx={{
-            paddingTop: '20px',
+            paddingTop: '20px', // Reduced padding since PageWrapper now handles the header offset
             maxWidth: '1200px',
           }}
         >

@@ -116,7 +116,7 @@ const UserProfile = () => {
       activities.push({
         icon: <PersonIcon />,
         title: 'Account Created',
-        description: 'Welcome to ExamEye!',
+        description: 'Welcome to ExamShield!',
         time: new Date().toLocaleDateString(),
         status: 'Completed'
       });
