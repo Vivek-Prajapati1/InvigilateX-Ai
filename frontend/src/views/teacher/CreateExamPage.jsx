@@ -75,12 +75,18 @@ const CreateExamPage = () => {
     initialValues: initialExamValues,
     validationSchema: examValidationSchema,
     onSubmit: async (values) => {
+      console.log('Form submitted with values:', values);
+      console.log('Form errors:', formik.errors);
+      console.log('Is form valid:', formik.isValid);
+      
       try {
         let examResponse;
         if (examId) {
+          console.log('Updating exam with ID:', examId);
           examResponse = await updateExam({ examId, ...values }).unwrap();
           toast.success('Exam updated successfully!');
         } else {
+          console.log('Creating new exam');
           examResponse = await createExam(values).unwrap();
           toast.success('Exam created successfully!');
         }
