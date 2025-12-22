@@ -39,8 +39,21 @@ const port = process.env.PORT || 5001;
 // Middleware
 // Configure CORS to allow credentials from your frontend origin
 // MUST be before other middleware to properly handle credentials
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://invigilate-x-ai.vercel.app'
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 

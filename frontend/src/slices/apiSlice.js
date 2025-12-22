@@ -1,8 +1,8 @@
 import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react';
 
+// Use Render backend in production, proxy in development
 const baseQuery = fetchBaseQuery({
-  baseUrl: '/', // Use relative URL to leverage Vite proxy for proper cookie handling
-  // baseUrl: 'https://exam-eyes.vercel.app/',
+  baseUrl: import.meta.env.PROD ? 'https://invigilatex-ai.onrender.com' : '/',
   credentials: 'include',
 });
 
