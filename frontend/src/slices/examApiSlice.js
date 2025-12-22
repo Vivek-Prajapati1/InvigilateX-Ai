@@ -86,7 +86,7 @@ export const examApiSlice = apiSlice.injectEndpoints({
     // Get exam results by examId
     getExamResults: builder.query({
       query: (examId) => ({
-        url: `${EXAMS_URL}/results/${examId}`,
+        url: `${EXAMS_URL}/results/exam/${examId}`,
         method: 'GET',
       }),
       providesTags: ['ExamResults'],
@@ -94,7 +94,7 @@ export const examApiSlice = apiSlice.injectEndpoints({
     // Get a single student's exam result for a specific exam
     getStudentExamResult: builder.query({
       query: ({ examId, studentId }) => ({
-        url: `${EXAMS_URL}/results/${examId}/${studentId}`,
+        url: `${EXAMS_URL}/results/student/${examId}/${studentId}`,
         method: 'GET',
       }),
     }),

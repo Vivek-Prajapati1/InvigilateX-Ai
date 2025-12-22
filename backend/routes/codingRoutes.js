@@ -19,7 +19,7 @@ router.get("/question/exam/:examId", getExamCodingQuestion);
 
 // Teacher routes
 router.post("/question", createCodingQuestion);
-router.get("/questions", getCodingQuestions);
+router.get("/questions/all", getCodingQuestions);
 router.get("/questions/:id", getCodingQuestion);
 
 export default router;

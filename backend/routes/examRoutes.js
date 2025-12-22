@@ -37,8 +37,8 @@ const examRoutes = express.Router();
 // examRoutes.route("/exam/questions").post(protect, createQuestion);
 
 // Define results routes 
-examRoutes.get("/results/:examId/:studentId", protect, getStudentExamResult);
-examRoutes.get("/results/:examId", protect, getExamResults);
+examRoutes.get("/results/student/:examId/:studentId", protect, getStudentExamResult);
+examRoutes.get("/results/exam/:examId", protect, getExamResults);
 
 // All other exam-related routes
 // protecting Exam route using auth middleware protect /api/users/
@@ -50,7 +50,7 @@ examRoutes.route("/exam/:examId/attempts").get(protect, checkExamAttempts);
 examRoutes.route("/exam/:examId/questions").get(protect, getQuestionsByExamId);
 examRoutes.route("/question/:questionId").put(protect, updateQuestion);
 examRoutes.route("/cheatingLogs/:examId").get(protect, getCheatingLogsByExamId);
-examRoutes.route("/cheatingLogs/").post(protect, saveCheatingLog);
+examRoutes.route("/cheatingLogs").post(protect, saveCheatingLog);
 examRoutes.route("/last-submission").get(protect, getLastStudentSubmission);
 examRoutes.route("/student-stats").get(protect, getStudentStats);
 examRoutes.route("/teacher-submissions").get(protect, getTeacherSubmissions);
