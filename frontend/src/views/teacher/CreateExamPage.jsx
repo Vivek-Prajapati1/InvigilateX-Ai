@@ -133,6 +133,7 @@ const CreateExamPage = () => {
         examName: examData.examName,
         totalQuestions: examData.totalQuestions,
         duration: examData.duration,
+        maxAttempts: examData.maxAttempts || 1, // Add maxAttempts with default
         liveDate: examData.liveDate ? new Date(examData.liveDate).toISOString().slice(0, 16) : '',
         deadDate: examData.deadDate ? new Date(examData.deadDate).toISOString().slice(0, 16) : '',
         codingQuestions: examData.codingQuestions && examData.codingQuestions.length > 0 
