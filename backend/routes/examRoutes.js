@@ -34,7 +34,7 @@ import {
 const examRoutes = express.Router();
 
 // Define specific question creation route first
-// examRoutes.route("/exam/questions").post(protect, createQuestion);
+examRoutes.route("/exam/questions").post(protect, createQuestion);
 
 // Define results routes 
 examRoutes.get("/results/student/:examId/:studentId", protect, getStudentExamResult);
