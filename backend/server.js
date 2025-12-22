@@ -108,14 +108,16 @@ app.post("/run-java", (req, res) => {
 });
 
 // API Routes
+console.log("Registering /api/users routes...");
 app.use("/api/users", userRoutes);
 
-// Remove duplicate route - handled in examRoutes
-// console.log("Server.js: Attempting to register POST /api/exams/exam/questions route.");
-// app.post("/api/exams/exam/questions", protect, createQuestion);
-
+console.log("Registering /api/exams routes...");
 app.use("/api/exams", examRoutes);
+
+console.log("Registering /api/coding routes...");
 app.use("/api/coding", codingRoutes);
+
+console.log("All routes registered successfully!");
 
 // Static Files (Production)
 if (process.env.NODE_ENV === "production") {

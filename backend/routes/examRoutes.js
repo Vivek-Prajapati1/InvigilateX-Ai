@@ -44,8 +44,10 @@ examRoutes.get("/results/exam/:examId", protect, getExamResults);
 // protecting Exam route using auth middleware protect /api/users/
 examRoutes.route("/exam").get(protect, getExams).post(protect, createExam);
 examRoutes.route("/my-exams").get(protect, getMyExams);
-examRoutes.route("/exam/:examId").get(protect, getExamById).put(protect, updateExam);
-examRoutes.route("/exam/:examId").post(protect, DeleteExamById);
+examRoutes.route("/exam/:examId")
+  .get(protect, getExamById)
+  .put(protect, updateExam)
+  .post(protect, DeleteExamById);
 examRoutes.route("/exam/:examId/attempts").get(protect, checkExamAttempts);
 examRoutes.route("/exam/:examId/questions").get(protect, getQuestionsByExamId);
 examRoutes.route("/question/:questionId").put(protect, updateQuestion);
