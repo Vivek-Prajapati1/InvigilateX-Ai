@@ -45,15 +45,12 @@ const examSchema = mongoose.Schema(
     codingQuestions: [{
       question: {
         type: String,
-        required: true,
       },
       description: {
         type: String,
-        required: true,
       },
       duration: {
         type: Number,
-        required: true,
         default: 30, // Default 30 minutes
         min: 1,
         max: 180, // Max 3 hours
