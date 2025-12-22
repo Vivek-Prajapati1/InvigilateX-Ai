@@ -42,7 +42,7 @@ const port = process.env.PORT || 5001;
 const allowedOrigins = [
   'http://localhost:5173',
   'https://invigilate-x-ai.vercel.app'
-];
+]; 
 
 app.use(cors({
   origin: function (origin, callback) {

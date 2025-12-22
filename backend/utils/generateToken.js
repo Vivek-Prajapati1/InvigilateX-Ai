@@ -5,10 +5,12 @@ const generateToken = (res, userId) => {
     expiresIn: "30d",
   });
 
+  const isProduction = process.env.NODE_ENV === "production";
+  
   const cookieOptions = {
     httpOnly: true,
-    secure: false, // Must be false for localhost development
-    sameSite: "lax",
+    secure: isProduction, // true in production (HTTPS), false in development
+    sameSite: isProduction ? "none" : "lax", // "none" required for cross-site cookies in production
     path: "/",
     maxAge: 30 * 24 * 60 * 60 * 1000,
   };
