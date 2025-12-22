@@ -46,7 +46,7 @@ export const examApiSlice = apiSlice.injectEndpoints({
     // Get questions for a specific exam
     getQuestions: builder.query({
       query: (examId) => ({
-        url: `${EXAMS_URL}/exam/questions/${examId}`,
+        url: `${EXAMS_URL}/exam/${examId}/questions`,
         method: 'GET',
       }),
     }),
@@ -61,7 +61,7 @@ export const examApiSlice = apiSlice.injectEndpoints({
     // Update an existing question
     updateQuestion: builder.mutation({
       query: ({ questionId, ...data }) => ({
-        url: `${EXAMS_URL}/exam/questions/${questionId}`,
+        url: `${EXAMS_URL}/question/${questionId}`,
         method: 'PUT',
         body: data,
       }),
