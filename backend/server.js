@@ -97,14 +97,10 @@ app.post("/run-java", (req, res) => {
 // API Routes
 app.use("/api/users", userRoutes);
 
-// Define specific question creation route directly in server.js to ensure precedence
-console.log("Server.js: Attempting to register POST /api/exams/exam/questions route.");
-app.post("/api/exams/exam/questions", protect, createQuestion);
+// Remove duplicate route - handled in examRoutes
+// console.log("Server.js: Attempting to register POST /api/exams/exam/questions route.");
+// app.post("/api/exams/exam/questions", protect, createQuestion);
 
-app.use("/api/exams", (req, res, next) => {
-  console.log(`Incoming request to /api/exams: ${req.method} ${req.url}`);
-  next();
-});
 app.use("/api/exams", examRoutes);
 app.use("/api/coding", codingRoutes);
 
