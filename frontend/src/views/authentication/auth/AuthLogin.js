@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 import CustomTextField from '../../../components/forms/theme-elements/CustomTextField';
 
-const AuthLogin = ({ formik, title, subtitle, subtext }) => {
+const AuthLogin = ({ formik, title, subtitle, subtext, showExtras = true }) => {
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } = formik;
   return (
     <>
@@ -33,7 +33,7 @@ const AuthLogin = ({ formik, title, subtitle, subtext }) => {
             htmlFor="username"
             mb="5px"
           >
-            Username
+            Email address
           </Typography>
           <CustomTextField
             id="username"
@@ -74,20 +74,22 @@ const AuthLogin = ({ formik, title, subtitle, subtext }) => {
             fullWidth
           />
         </Box>
-        <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
-          <FormGroup>
-            <FormControlLabel control={<Checkbox defaultChecked />} label="Remember this Device" />
-          </FormGroup>
-          <Typography
-            fontWeight="500"
-            sx={{
-              textDecoration: 'none',
-              color: 'primary.main',
-            }}
-          >
-            Forgot Password ?
-          </Typography>
-        </Stack>
+        {showExtras && (
+          <Stack justifyContent="space-between" direction="row" alignItems="center" my={2}>
+            <FormGroup>
+              <FormControlLabel control={<Checkbox defaultChecked />} label="Remember this Device" />
+            </FormGroup>
+            <Typography
+              fontWeight="500"
+              sx={{
+                textDecoration: 'none',
+                color: 'primary.main',
+              }}
+            >
+              Forgot Password ?
+            </Typography>
+          </Stack>
+        )}
       </Stack>
       <Box>
         <Button

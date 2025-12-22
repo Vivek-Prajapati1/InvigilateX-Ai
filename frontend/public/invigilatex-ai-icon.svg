@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="InvigilateX-Ai Icon">
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#41bcba"/>
+      <stop offset="100%" stop-color="#c52d84"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#e7f8f7" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <!-- Shield -->
+  <path filter="url(#shadow)" d="M128 18c28 18 56 18 84 0v90c0 48-36 92-84 130C80 200 44 156 44 108V18c28 18 56 18 84 0z" fill="url(#g1)"/>
+  <!-- Eye ring -->
+  <circle cx="128" cy="110" r="52" fill="url(#g2)"/>
+  <!-- Iris -->
+  <circle cx="128" cy="110" r="26" fill="#2a2a2a"/>
+  <!-- Pupil highlight -->
+  <circle cx="120" cy="102" r="6" fill="#ffffff" opacity="0.85"/>
+  <!-- Stylized X overlay -->
+  <path d="M92 74 L164 146 M164 74 L92 146" stroke="#ffffff" stroke-opacity="0.85" stroke-width="8" stroke-linecap="round"/>
+</svg>

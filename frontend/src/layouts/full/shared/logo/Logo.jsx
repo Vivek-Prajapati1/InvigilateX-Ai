@@ -12,8 +12,8 @@ const Logo = () => {
   return (
     <LinkStyled to="/">
       <img
-        src="/logo.png"
-        alt="Logo"
+        src="/invigilatex-ai-logo-compact.svg"
+        alt="InvigilateX-Ai"
         height={80}
         style={{
           width: "auto",

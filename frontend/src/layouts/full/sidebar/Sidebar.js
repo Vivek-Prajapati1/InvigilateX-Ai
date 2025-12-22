@@ -42,8 +42,8 @@ const Sidebar = (props) => {
               boxSizing: 'border-box',
               top: '70px', // Position below fixed header
               height: 'calc(100% - 70px)', // Adjust height to account for header
-              backgroundColor: '#ffffff', // Ensure white background
-              color: '#333333', // Dark text for readability
+              backgroundColor: (theme) => theme.palette.background.paper,
+              color: (theme) => theme.palette.text.primary,
             },
           }}
         >
@@ -79,8 +79,8 @@ const Sidebar = (props) => {
         sx: {
           width: sidebarWidth,
           boxShadow: (theme) => theme.shadows[8],
-          backgroundColor: '#ffffff', // White background for mobile sidebar
-          color: '#333333', // Dark text for readability
+          backgroundColor: (theme) => theme.palette.background.paper,
+          color: (theme) => theme.palette.text.primary,
         },
       }}
     >
@@ -101,7 +101,7 @@ const Sidebar = (props) => {
       >
         <ExamShieldLogo 
           variant="compact" 
-          width={130} 
+          width={150} 
           height={55}
           sx={{
             filter: 'brightness(1) contrast(1.1)',

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="InvigilateX-Ai Gradient Mark">
+  <defs>
+    <radialGradient id="rg" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="60%" stop-color="#bcefee" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#8be2de" stop-opacity="0.95"/>
+    </radialGradient>
+    <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#41bcba"/>
+      <stop offset="100%" stop-color="#c52d84"/>
+    </linearGradient>
+    <filter id="softshadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <!-- Soft rounded hex shield -->
+  <path filter="url(#softshadow)" d="M128 18c28 18 56 18 84 0v90c0 48-36 92-84 130C80 200 44 156 44 108V18c28 18 56 18 84 0z" fill="url(#lg)"/>
+  <!-- Eye with gradient ring -->
+  <circle cx="128" cy="108" r="56" fill="url(#rg)"/>
+  <circle cx="128" cy="108" r="26" fill="#0f172a"/>
+  <circle cx="118" cy="100" r="7" fill="#fff" opacity="0.9"/>
+  <!-- Neural X accent -->
+  <g opacity="0.9">
+    <path d="M96 76 L160 140" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+    <path d="M160 76 L96 140" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+  </g>
+</svg>

@@ -13,26 +13,27 @@ const StyledList = styled(List)(({ theme }) => ({
   '.MuiListItem-root': {
     borderRadius: 12,
     marginBottom: 4,
-    transition: 'background 0.2s',
+    transition: 'all 0.2s ease',
     '&:hover': {
-      background: theme.palette.primary[100] || '#e3eafe',
-      color: theme.palette.primary.main,
+      background: theme.palette.primary.light,
+      color: theme.palette.primary.contrastText,
       boxShadow: theme.shadows[1],
     },
     '&.Mui-selected, &.Mui-selected:hover': {
       background: theme.palette.primary.main,
-      color: 'white',
+      color: theme.palette.primary.contrastText,
       boxShadow: theme.shadows[2],
     },
   },
   '.MuiListSubheader-root': {
-    fontWeight: 700,
-    color: theme.palette.primary.dark,
-    fontSize: 13,
+    fontWeight: 800,
+    color: theme.palette.secondary.main,
+    fontSize: 12,
     marginTop: 16,
-    marginBottom: 4,
-    letterSpacing: 1,
+    marginBottom: 6,
+    letterSpacing: 1.2,
     background: 'transparent',
+    textTransform: 'uppercase',
   },
 }));
 

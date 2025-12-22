@@ -226,7 +226,7 @@ const DescriptionAndInstructions = () => {
                   textShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 }}
               >
-               Welcome To ExamShield
+               Welcome To InvigilateX-Ai
               </Typography>
             </Zoom>
             

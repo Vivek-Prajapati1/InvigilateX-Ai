@@ -37,15 +37,16 @@ const app = express();
 const port = process.env.PORT || 5001;
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
 // Configure CORS to allow credentials from your frontend origin
+// MUST be before other middleware to properly handle credentials
 app.use(cors({
   origin: 'http://localhost:5173',
   credentials: true,
 }));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Code Execution Endpoints
 app.post("/run-python", (req, res) => {

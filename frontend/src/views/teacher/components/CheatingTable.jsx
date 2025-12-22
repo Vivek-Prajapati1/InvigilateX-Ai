@@ -270,39 +270,103 @@ export default function CheatingTable() {
       )}
 
       {/* Screenshots Dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="md" fullWidth>
+      <Dialog 
+        open={openDialog} 
+        onClose={handleCloseDialog} 
+        maxWidth="lg" 
+        fullWidth
+        PaperProps={{
+          sx: {
+            borderRadius: 3,
+            maxHeight: '85vh',
+          }
+        }}
+      >
         <DialogTitle>
           <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h6">Screenshots - {selectedLog?.username}</Typography>
-            <IconButton onClick={handleCloseDialog}>
+            <Box>
+              <Typography variant="h5" sx={{ fontWeight: 700, color: 'primary.main' }}>
+                Screenshots - {selectedLog?.username}
+              </Typography>
+              <Typography variant="caption" color="text.secondary">
+                {selectedLog?.screenshots?.length || 0} screenshot(s) captured
+              </Typography>
+            </Box>
+            <IconButton 
+              onClick={handleCloseDialog}
+              sx={{
+                color: 'text.secondary',
+                '&:hover': {
+                  backgroundColor: 'action.hover',
+                }
+              }}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
         </DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2}>
-            {selectedLog?.screenshots?.map((screenshot, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <Card>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={screenshot.url}
-                    alt={`Violation - ${screenshot.type}`}
-                    sx={{ objectFit: 'cover' }}
-                  />
-                  <CardContent>
-                    <Typography variant="subtitle2" color="text.secondary">
-                      Type: {screenshot.type}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      Detected: {new Date(screenshot.detectedAt).toLocaleString()}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+        <DialogContent sx={{ pt: 2 }}>
+          {!selectedLog?.screenshots || selectedLog.screenshots.length === 0 ? (
+            <Box 
+              display="flex" 
+              flexDirection="column"
+              alignItems="center" 
+              justifyContent="center" 
+              minHeight="200px"
+              sx={{ color: 'text.secondary' }}
+            >
+              <ImageIcon sx={{ fontSize: 64, mb: 2, opacity: 0.3 }} />
+              <Typography variant="h6">No screenshots available</Typography>
+            </Box>
+          ) : (
+            <Grid container spacing={3}>
+              {selectedLog.screenshots.map((screenshot, index) => (
+                <Grid item xs={12} sm={6} md={4} key={index}>
+                  <Card 
+                    sx={{ 
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      borderRadius: 2,
+                      transition: 'transform 0.2s, box-shadow 0.2s',
+                      '&:hover': {
+                        transform: 'translateY(-4px)',
+                        boxShadow: (theme) => theme.shadows[8],
+                      }
+                    }}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="220"
+                      image={screenshot.url}
+                      alt={`Violation - ${screenshot.type}`}
+                      sx={{ 
+                        objectFit: 'contain',
+                        cursor: 'pointer',
+                      }}
+                      onClick={() => window.open(screenshot.url, '_blank')}
+                    />
+                    <CardContent sx={{ flexGrow: 1, pt: 2 }}>
+                      <Chip
+                        label={screenshot.type || 'noFace'}
+                        color={
+                          screenshot.type === 'noFace' ? 'error' :
+                          screenshot.type === 'multipleFace' ? 'warning' :
+                          screenshot.type === 'cellPhone' ? 'error' :
+                          'default'
+                        }
+                        size="small"
+                        sx={{ mb: 1, fontWeight: 600 }}
+                      />
+                      <Typography variant="caption" display="block" color="text.secondary">
+                        Detected: {new Date(screenshot.detectedAt).toLocaleString()}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          )}
         </DialogContent>
       </Dialog>
     </Box>

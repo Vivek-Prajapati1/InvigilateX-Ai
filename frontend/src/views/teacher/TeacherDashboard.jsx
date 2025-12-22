@@ -271,12 +271,12 @@ const TeacherDashboard = () => {
       </Grid>
 
       {/* Tabs */}
-      <Card>
+      <Card sx={{ border: (theme) => `1px solid ${theme.palette.divider}`, borderRadius: 3, boxShadow: (theme) => theme.shadows[2] }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={tabValue} onChange={handleTabChange} aria-label="teacher dashboard tabs">
-            <Tab label="Recent Submissions" icon={<AssessmentIcon />} />
-            <Tab label="My Exams" icon={<AssignmentIcon />} />
-            <Tab label="Student Performance" icon={<PeopleIcon />} />
+          <Tabs value={tabValue} onChange={handleTabChange} aria-label="teacher dashboard tabs" variant="scrollable" allowScrollButtonsMobile>
+            <Tab label="Recent Submissions" icon={<AssessmentIcon />} iconPosition="start" />
+            <Tab label="My Exams" icon={<AssignmentIcon />} iconPosition="start" />
+            <Tab label="Student Performance" icon={<PeopleIcon />} iconPosition="start" />
           </Tabs>
         </Box>
 

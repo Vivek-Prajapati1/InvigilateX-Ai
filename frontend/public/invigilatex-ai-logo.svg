@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="640" height="180" viewBox="0 0 640 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="InvigilateX-Ai Logo">
+  <defs>
+    <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#41bcba"/>
+      <stop offset="100%" stop-color="#c52d84"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <!-- Icon (left) -->
+  <g transform="translate(20,10)">
+    <path filter="url(#shadow)" d="M60 4c20 12 40 12 60 0v60c0 32-24 62-60 88C24 126 0 96 0 64V4c20 12 40 12 60 0z" fill="url(#lg)"/>
+    <circle cx="60" cy="56" r="36" fill="#ffffff" fill-opacity="0.95"/>
+    <circle cx="60" cy="56" r="18" fill="#2a2a2a"/>
+    <circle cx="54" cy="50" r="4" fill="#ffffff" opacity="0.9"/>
+    <path d="M38 34 L82 78 M82 34 L38 78" stroke="#ffffff" stroke-opacity="0.85" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <!-- Wordmark (right) -->
+  <g transform="translate(170, 40)">
+    <text x="0" y="40" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif" font-size="44" font-weight="800" fill="#1f1f1f" letter-spacing="0.5px">Invigilate</text>
+    <text x="250" y="40" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif" font-size="44" font-weight="800" fill="url(#lg)" letter-spacing="0.5px">X</text>
+    <text x="285" y="40" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif" font-size="44" font-weight="800" fill="#1f1f1f" letter-spacing="0.5px">-Ai</text>
+    <text x="0" y="78" font-family="Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif" font-size="16" fill="#4a4a4a" letter-spacing="0.3px">AI-Powered Proctoring & Exam Security</text>
+  </g>
+</svg>

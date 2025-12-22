@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Grid, Box, Card, Typography } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
+import BrandBackground from 'src/components/shared/BrandBackground';
 import ExamForm from './components/ExamForm';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -147,34 +148,27 @@ const CreateExamPage = () => {
 
   return (
     <PageContainer title={examId ? "Edit Exam" : "Create Exam"} description={examId ? "Edit an existing exam" : "Create a new exam"}>
-      <Box
-        sx={{
-          minHeight: '100vh',
-          background: 'linear-gradient(120deg, #41bcba 0%, #ed93c7 100%)',
-          py: 6,
-        }}
-      >
+      <BrandBackground>
         <Box
           sx={{
             maxWidth: 850,
             mx: 'auto',
-            boxShadow: '0 8px 32px 0 rgba(65,188,186,0.18)',
+            boxShadow: (theme) => theme.shadows[6],
             borderRadius: 4,
-            background: '#fff',
+            background: (theme) => theme.palette.background.paper,
             p: { xs: 2, md: 4 },
             mb: 4,
-            border: '3px solid #41bcba',
+            border: (theme) => `1px solid ${theme.palette.divider}`,
           }}
         >
           <Typography
             variant="h3"
             align="center"
             sx={{
-              fontWeight: 700,
-              color: '#159fc1',
+              fontWeight: 800,
+              color: 'primary.main',
               mb: 2,
-              textShadow: '2px 2px 8px #ed93c7',
-              letterSpacing: 2,
+              letterSpacing: 1,
             }}
           >
             {examId ? 'Edit Exam' : 'Create Exam'}
@@ -183,10 +177,10 @@ const CreateExamPage = () => {
             variant="subtitle1"
             align="center"
             sx={{
-              color: '#c52d84',
+              color: 'text.secondary',
               mb: 2,
               fontWeight: 500,
-              letterSpacing: 1,
+              letterSpacing: 0.5,
             }}
           >
             {examId
@@ -198,23 +192,11 @@ const CreateExamPage = () => {
               <Typography>Loading Exam Details...</Typography>
             </Box>
           ) : (
-            <Card
-              elevation={9}
-              sx={{
-                p: 4,
-                zIndex: 1,
-                width: '100%',
-                maxWidth: '800px',
-                mx: 'auto',
-                background: "linear-gradient(120deg, #fff 80%, #ed93c7 100%)",
-                borderRadius: 3,
-                boxShadow: "0 4px 16px 0 #41bcba22",
-              }}
-            >
+            <Card elevation={0} sx={{ p: 4, width: '100%', maxWidth: '800px', mx: 'auto', border: (theme) => `1px solid ${theme.palette.divider}`, borderRadius: 3, boxShadow: (theme) => theme.shadows[2] }}>
               <ExamForm
                 formik={formik}
                 title={
-                  <Typography variant="h4" textAlign="center" color="#41bcba" mb={1} fontWeight={700}>
+                  <Typography variant="h6" textAlign="center" color="primary.main" mb={1} fontWeight={700}>
                     {examId ? 'Edit Exam' : 'Create Exam'}
                   </Typography>
                 }
@@ -223,7 +205,7 @@ const CreateExamPage = () => {
             </Card>
           )}
         </Box>
-      </Box>
+      </BrandBackground>
     </PageContainer>
   );
 };

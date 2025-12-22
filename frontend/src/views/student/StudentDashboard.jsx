@@ -11,7 +11,9 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux"; // if you store student info in redux
 import { useGetExamsQuery } from "src/slices/examApiSlice";
+// If a results slice exists, uncomment the next line; otherwise, keep a safe fallback.
 // import { useGetResultsQuery } from "src/slices/resultApiSlice";
+import BrandBackground from "src/components/shared/BrandBackground";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -19,27 +21,36 @@ const StudentDashboard = () => {
 
   // Fetch exams + results (optional, depending on your APIs)
   const { data: exams = [] } = useGetExamsQuery();
-  const { data: results = [] } = useGetResultsQuery();
+  // Safe fallback for results if hook not available
+  let results = [];
+  try {
+    // @ts-ignore
+    const { data } = useGetResultsQuery ? useGetResultsQuery() : { data: [] };
+    results = data || [];
+  } catch {
+    results = [];
+  }
 
   const upcomingExams = exams.slice(0, 3);
   const recentResults = results.slice(0, 3);
 
   return (
-    <Box p={3}>
+  <BrandBackground>
+    <Box p={{ xs: 2, sm: 3 }}>
       {/* Welcome Section */}
-      <Typography variant="h4" gutterBottom>
-        Welcome, {userInfo?.name || "Student"} 🎓
+      <Typography variant="h4" fontWeight={800} gutterBottom color="primary.main">
+        Welcome, {userInfo?.name || "Student"}
       </Typography>
-      <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-        Here’s your dashboard overview
+      <Typography variant="subtitle1" color="text.secondary" gutterBottom>
+        Your InvigilateX-Ai overview
       </Typography>
 
       <Grid container spacing={3} mt={2}>
         {/* Upcoming Exams */}
         <Grid item xs={12} md={6}>
-          <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
+          <Card sx={{ borderRadius: 3, boxShadow: (theme) => theme.shadows[2], border: (theme) => `1px solid ${theme.palette.divider}` }}>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" fontWeight={700} gutterBottom>
                 Upcoming Exams
               </Typography>
               <Divider sx={{ mb: 2 }} />
@@ -62,7 +73,7 @@ const StudentDashboard = () => {
                   </Box>
                 ))
               ) : (
-                <Typography color="textSecondary">No upcoming exams</Typography>
+                <Typography color="text.secondary">No upcoming exams</Typography>
               )}
             </CardContent>
           </Card>
@@ -70,9 +81,9 @@ const StudentDashboard = () => {
 
         {/* Recent Results */}
         <Grid item xs={12} md={6}>
-          <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
+          <Card sx={{ borderRadius: 3, boxShadow: (theme) => theme.shadows[2], border: (theme) => `1px solid ${theme.palette.divider}` }}>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" fontWeight={700} gutterBottom>
                 Recent Results
               </Typography>
               <Divider sx={{ mb: 2 }} />
@@ -89,7 +100,7 @@ const StudentDashboard = () => {
                   </Box>
                 ))
               ) : (
-                <Typography color="textSecondary">No results yet</Typography>
+                <Typography color="text.secondary">No results yet</Typography>
               )}
             </CardContent>
           </Card>
@@ -97,9 +108,9 @@ const StudentDashboard = () => {
 
         {/* Quick Actions */}
         <Grid item xs={12}>
-          <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
+          <Card sx={{ borderRadius: 3, boxShadow: (theme) => theme.shadows[2], border: (theme) => `1px solid ${theme.palette.divider}` }}>
             <CardContent>
-              <Typography variant="h6" gutterBottom>
+              <Typography variant="h6" fontWeight={700} gutterBottom>
                 Quick Actions
               </Typography>
               <Divider sx={{ mb: 2 }} />
@@ -128,6 +139,7 @@ const StudentDashboard = () => {
         </Grid>
       </Grid>
     </Box>
+  </BrandBackground>
   );
 };
 

@@ -113,10 +113,10 @@ const UserProfile = () => {
 
     // Add fallback activities if none exist
     if (activities.length === 0) {
-      activities.push({
+        activities.push({
         icon: <PersonIcon />,
         title: 'Account Created',
-        description: 'Welcome to ExamShield!',
+          description: 'Welcome to InvigilateX-Ai!',
         time: new Date().toLocaleDateString(),
         status: 'Completed'
       });

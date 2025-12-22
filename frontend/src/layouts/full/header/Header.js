@@ -54,7 +54,7 @@ const Header = (props) => {
       position="fixed"
       color="default"
       sx={{
-        background: '#41bcba',
+        background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
         zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
@@ -73,8 +73,8 @@ const Header = (props) => {
         >
           <ExamShieldLogo 
             variant="compact" 
-            width={160} 
-            height={65}
+            width={180} 
+            height={60}
             sx={{ 
               filter: 'brightness(1.5) saturate(1.2) contrast(1.2)',
               '& svg': {

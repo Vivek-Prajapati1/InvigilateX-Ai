@@ -11,19 +11,19 @@ const ExamShieldLogo = ({
   const getLogoSource = () => {
     switch (variant) {
       case 'compact':
-        return '/examshield-logo-compact.svg';
+        return '/invigilatex-ai-logo-compact.svg';
       case 'icon':
-        return '/examshield-icon.svg';
+        return '/invigilatex-ai-icon.svg';
       case 'full':
       default:
-        return '/examshield-logo.svg';
+        return '/invigilatex-ai-logo.svg';
     }
   };
 
   const getDefaultDimensions = () => {
     switch (variant) {
       case 'compact':
-        return { width: width || 120, height: height || 60 };
+        return { width: width || 160, height: height || 60 };
       case 'icon':
         return { width: width || 64, height: height || 64 };
       case 'full':
@@ -38,7 +38,7 @@ const ExamShieldLogo = ({
     <Box
       component="img"
       src={getLogoSource()}
-      alt="ExamShield - AI-Powered Exam Security"
+      alt="InvigilateX-Ai - AI-Powered Exam Security"
       sx={{
         width: dimensions.width,
         height: dimensions.height,

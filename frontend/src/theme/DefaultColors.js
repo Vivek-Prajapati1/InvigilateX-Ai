@@ -6,68 +6,79 @@ const baselightTheme = createTheme({
   direction: 'ltr',
   palette: {
     primary: {
-      main: '#5D87FF',
-      light: '#ECF2FF',
-      dark: '#4570EA',
+      main: '#159fc1', // cyan-blue from logo
+      light: '#41bcba',
+      dark: '#0b7f98',
+      contrastText: '#ffffff',
     },
     secondary: {
-      main: '#49BEFF',
-      light: '#E8F7FF',
-      dark: '#23afdb',
+      main: '#c52d84', // magenta from logo
+      light: '#ed93c7',
+      dark: '#8e1f5e',
+      contrastText: '#ffffff',
     },
     success: {
-      main: '#13DEB9',
-      light: '#E6FFFA',
-      dark: '#02b3a9',
+      main: '#16a34a',
+      light: '#dcfce7',
+      dark: '#15803d',
       contrastText: '#ffffff',
     },
     info: {
-      main: '#539BFF',
-      light: '#EBF3FE',
-      dark: '#1682d4',
+      main: '#0ea5e9',
+      light: '#e0f2fe',
+      dark: '#0369a1',
       contrastText: '#ffffff',
     },
     error: {
-      main: '#FA896B',
-      light: '#FDEDE8',
-      dark: '#f3704d',
+      main: '#ef4444',
+      light: '#fee2e2',
+      dark: '#b91c1c',
       contrastText: '#ffffff',
     },
     warning: {
-      main: '#FFAE1F',
-      light: '#FEF5E5',
-      dark: '#ae8e59',
+      main: '#f59e0b',
+      light: '#fef3c7',
+      dark: '#b45309',
       contrastText: '#ffffff',
     },
     purple: {
-      A50: '#EBF3FE',
-      A100: '#6610f2',
-      A200: '#557fb9',
+      A50: '#f5f3ff',
+      A100: '#7c3aed',
+      A200: '#6d28d9',
     },
     grey: {
-      100: '#F2F6FA',
+      100: '#F4F7FA',
       200: '#EAEFF4',
       300: '#DFE5EF',
       400: '#7C8FAC',
       500: '#5A6A85',
-      600: '#2A3547',
-
+      600: '#1f2937',
     },
     text: {
-      primary: '#2A3547',
-      secondary: '#5A6A85',
+      primary: '#0f172a',
+      secondary: '#334155',
+    },
+    background: {
+      default: '#f8fbfb',
+      paper: '#ffffff',
     },
     action: {
       disabledBackground: 'rgba(73,82,88,0.12)',
-      hoverOpacity: 0.02,
-      hover: '#f6f9fc',
+      hoverOpacity: 0.06,
+      hover: '#f1f5f9',
     },
     divider: '#e5eaef',
   },
-  typography,
+  shape: {
+    borderRadius: 12,
+  },
+  typography: {
+    ...typography,
+    h1: { ...typography.h1, letterSpacing: 0.2 },
+    h2: { ...typography.h2, letterSpacing: 0.2 },
+    button: { ...typography.button, fontWeight: 600 },
+  },
   shadows
-},
-  
-);
+});
 
 export { baselightTheme };

@@ -636,6 +636,7 @@ export default function Coder() {
         backgroundColor: "#1a1a1a",
         color: "#ffffff",
         overflow: "hidden",
+        pt: { xs: "56px", lg: "70px" }, // Add padding to account for fixed header
       }}
     >
       {/* LeetCode-style Header */}
@@ -655,7 +656,7 @@ export default function Coder() {
           <Box sx={{ display: "flex", alignItems: "center", mr: 4 }}>
             <CodeIcon sx={{ color: "#ffa116", fontSize: 28, mr: 1 }} />
             <Typography variant="h6" sx={{ fontWeight: "bold", color: "#ffffff" }}>
-              ExamShield
+              InvigilateX-Ai
             </Typography>
           </Box>
 

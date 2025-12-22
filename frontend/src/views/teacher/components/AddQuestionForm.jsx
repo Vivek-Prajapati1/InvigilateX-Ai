@@ -105,32 +105,31 @@ const AddQuestionForm = () => {
   return (
     <Box
       sx={{
-        background: "#fff",
-        borderRadius: 5,
-        boxShadow: "0 8px 32px 0 #41bcba22",
+        background: (theme) => theme.palette.background.paper,
+        borderRadius: 3,
+        boxShadow: (theme) => theme.shadows[2],
         p: { xs: 3, md: 5 },
         mb: 3,
-        border: "2px solid #41bcba",
+        border: (theme) => `1px solid ${theme.palette.divider}`,
         maxWidth: 900,
         mx: "auto",
         mt: 2,
       }}
     >
       <Typography
-        variant="h4"
+        variant="h5"
         align="center"
         sx={{
-          fontWeight: 700,
-          color: "#159fc1",
+          fontWeight: 800,
+          color: 'primary.main',
           mb: 1,
-          textShadow: "2px 2px 8px #ed93c7",
-          letterSpacing: 2,
+          letterSpacing: 0.5,
         }}
       >
         Add & Manage Exam Questions
       </Typography>
-      <Divider sx={{ mb: 2, background: "linear-gradient(90deg, #41bcba 0%, #ed93c7 100%)", height: 5, borderRadius: 2 }} />
-      <Typography variant="h6" mb={1} sx={{ color: "#c52d84" }}>
+      <Divider sx={{ mb: 2 }} />
+      <Typography variant="h6" mb={1} sx={{ color: 'secondary.main' }}>
         Select Exam:
       </Typography>
       <Box sx={{ mb: 2, display: "flex", justifyContent: "center" }}>
@@ -148,7 +147,7 @@ const AddQuestionForm = () => {
           sx={{
             minWidth: 220,
             maxWidth: 300,
-            background: "#f8fafd",
+            background: (theme) => theme.palette.background.default,
             borderRadius: 2,
           }}
         >
@@ -161,9 +160,9 @@ const AddQuestionForm = () => {
         </Select>
       </Box>
 
-      <Divider sx={{ mb: 1, background: "#f3e8f7", height: 2, borderRadius: 2 }} />
+      <Divider sx={{ mb: 1 }} />
 
-      <Typography variant="h6" mb={2} sx={{ color: "#c52d84" }}>
+      <Typography variant="h6" mb={2} sx={{ color: 'secondary.main' }}>
         Existing Questions:
       </Typography>
       {questions.length === 0 ? (
@@ -175,10 +174,10 @@ const AddQuestionForm = () => {
             sx={{
               mb: 1,
               p: 1,
-              border: '2px solid #e0e0e0',
-              borderRadius: '9px',
-              background: "#f8fafd",
-              boxShadow: "0 2px 8px #e0e0e022",
+              border: (theme) => `1px solid ${theme.palette.divider}`,
+              borderRadius: 2,
+              background: (theme) => theme.palette.background.default,
+              boxShadow: (theme) => theme.shadows[0],
             }}
           >
             <Stack direction="row" justifyContent="space-between" alignItems="center" mb={1}>

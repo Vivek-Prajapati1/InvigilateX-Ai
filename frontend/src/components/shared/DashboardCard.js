@@ -15,19 +15,25 @@ const DashboardCard = ({
 
   return (
     <Card
-      sx={{ padding: 0 }}
-      elevation={9}
+      sx={{
+        p: 0,
+        border: (theme) => `1px solid ${theme.palette.divider}`,
+        borderRadius: 3,
+        boxShadow: (theme) => theme.shadows[2],
+        backgroundColor: (theme) => theme.palette.background.paper,
+      }}
+      elevation={0}
       variant={undefined}
     >
       {cardheading ? (
-        <CardContent>
-          <Typography variant="h5">{headtitle}</Typography>
-          <Typography variant="subtitle2" color="textSecondary">
+        <CardContent sx={{ p: 3 }}>
+          <Typography variant="h5" color="primary.main" fontWeight={700}>{headtitle}</Typography>
+          <Typography variant="subtitle2" color="text.secondary">
             {headsubtitle}
           </Typography>
         </CardContent>
       ) : (
-        <CardContent sx={{ p: "30px" }}>
+        <CardContent sx={{ p: 3 }}>
           {title ? (
             <Stack
               direction="row"
@@ -37,10 +43,10 @@ const DashboardCard = ({
               mb={3}
             >
               <Box>
-                {title ? <Typography variant="h5">{title}</Typography> : ''}
+                {title ? <Typography variant="h6" color="primary.main" fontWeight={700}>{title}</Typography> : ''}
 
                 {subtitle ? (
-                  <Typography variant="subtitle2" color="textSecondary">
+                  <Typography variant="subtitle2" color="text.secondary">
                     {subtitle}
                   </Typography>
                 ) : (
