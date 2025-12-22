@@ -22,6 +22,8 @@ import { useNavigate } from 'react-router-dom';
 import PageContainer from 'src/components/container/PageContainer';
 import DashboardCard from '../../components/shared/DashboardCard';
 import { useGetTeacherSubmissionsQuery, useApproveCheatingLogsMutation, useApproveFailureReasonMutation } from '../../slices/examApiSlice';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const TeacherResults = () => {
   const navigate = useNavigate();
@@ -143,32 +145,94 @@ const TeacherResults = () => {
             <Button
               variant="contained"
               onClick={async () => {
-                const { jsPDF } = await import('jspdf');
-                await import('jspdf-autotable');
-                const doc = new jsPDF();
-                doc.text('Teacher Results', 14, 16);
-                const rows = filtered.map((s) => {
-                  const maxScore = (s.totalQuestions || 0) * 10;
-                  const pct = maxScore > 0 ? Math.round((s.score / maxScore) * 100) : 0;
-                  const statusText = s.status === 'auto_failed' ? 'Auto Submit' : 'Completed';
-                  return [
-                    s.studentName,
-                    s.studentEmail,
-                    s.examName,
-                    `${s.score}/${maxScore}`,
-                    `${pct}%`,
-                    statusText,
-                    s.hasCodingAnswer ? (s.codingLanguage || 'Yes') : 'No',
-                    new Date(s.submittedAt).toLocaleString(),
-                  ];
-                });
-                // @ts-ignore
-                doc.autoTable({
-                  head: [['Student', 'Email', 'Exam', 'Score', 'Percentage', 'Status', 'Coding', 'Submitted']],
-                  body: rows,
-                  startY: 22,
-                });
-                doc.save('teacher-results.pdf');
+                try {
+                  const doc = new jsPDF();
+                  
+                  // Add logo (converted to base64 or direct path)
+                  try {
+                    const logoImg = new Image();
+                    logoImg.crossOrigin = 'Anonymous';
+                    logoImg.src = window.location.origin + '/invigilatex-ai-icon.svg';
+                    await new Promise((resolve, reject) => {
+                      logoImg.onload = resolve;
+                      logoImg.onerror = reject;
+                      setTimeout(reject, 1000);
+                    });
+                    doc.addImage(logoImg, 'PNG', 90, 10, 15, 15);
+                  } catch (err) {
+                    console.log('Logo loading skipped:', err);
+                  }
+                  
+                  // Add centered branding header
+                  doc.setFontSize(24);
+                  doc.setTextColor(21, 159, 193); // Primary color
+                  doc.text('InvigilateX-Ai', doc.internal.pageSize.width / 2, 32, { align: 'center' });
+                  
+                  doc.setFontSize(14);
+                  doc.setTextColor(100, 100, 100);
+                  doc.text('Teacher Results Report', doc.internal.pageSize.width / 2, 40, { align: 'center' });
+                  
+                  doc.setFontSize(10);
+                  doc.setTextColor(150, 150, 150);
+                  doc.text(`Generated on: ${new Date().toLocaleString()}`, doc.internal.pageSize.width / 2, 46, { align: 'center' });
+                  
+                  // Add a line separator
+                  doc.setDrawColor(21, 159, 193);
+                  doc.setLineWidth(0.5);
+                  doc.line(14, 50, 196, 50);
+                  
+                  const rows = filtered.map((s) => {
+                    const maxScore = (s.totalQuestions || 0) * 10;
+                    const pct = maxScore > 0 ? Math.round((s.score / maxScore) * 100) : 0;
+                    const statusText = s.status === 'auto_failed' ? 'Auto Submit' : 'Completed';
+                    return [
+                      s.studentName || '',
+                      s.studentEmail || '',
+                      s.examName || '',
+                      `${s.score || 0}/${maxScore}`,
+                      `${pct}%`,
+                      statusText,
+                      s.hasCodingAnswer ? (s.codingLanguage || 'Yes') : 'No',
+                      s.submittedAt ? new Date(s.submittedAt).toLocaleString() : 'N/A',
+                    ];
+                  });
+                  autoTable(doc, {
+                    head: [['Student', 'Email', 'Exam', 'Score', 'Percentage', 'Status', 'Coding', 'Submitted']],
+                    body: rows,
+                    startY: 54,
+                    headStyles: {
+                      fillColor: [21, 159, 193],
+                      textColor: [255, 255, 255],
+                      fontStyle: 'bold',
+                    },
+                    alternateRowStyles: {
+                      fillColor: [245, 245, 245],
+                    },
+                    styles: {
+                      fontSize: 9,
+                      cellPadding: 3,
+                    },
+                  });
+                  
+                  // Add footer
+                  const pageCount = doc.internal.getNumberOfPages();
+                  for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(8);
+                    doc.setTextColor(150, 150, 150);
+                    doc.text(
+                      `InvigilateX-Ai - Page ${i} of ${pageCount}`,
+                      doc.internal.pageSize.width / 2,
+                      doc.internal.pageSize.height - 10,
+                      { align: 'center' }
+                    );
+                  }
+                  
+                  doc.save('teacher-results.pdf');
+                } catch (error) {
+                  console.error('PDF Export Error:', error);
+                  alert('Failed to export PDF: ' + error.message);
+                }
               }}
             >
               Export PDF

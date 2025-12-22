@@ -8,6 +8,8 @@ import { useGetExamResultsQuery, useGetStudentExamResultQuery, useGetStudentStat
 import { Assignment as AssignmentIcon, TrendingUp as TrendingUpIcon, EmojiEvents as EmojiEventsIcon, Grade as GradeIcon } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { useGetCheatingLogsQuery } from 'src/slices/cheatingLogApiSlice';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const ResultPage = () => {
   const { examId, studentId: studentIdFromUrl } = useParams();
@@ -303,17 +305,91 @@ const ResultPage = () => {
             </Button>
 
             <Button variant="contained" onClick={async () => {
-              const { jsPDF } = await import('jspdf');
-              await import('jspdf-autotable');
-              const doc = new jsPDF();
-              doc.text('My Exam Results', 14, 16);
-              const rows = filteredList.map((s) => {
-                const pct = Math.round((s.score / (s.totalQuestions * 10)) * 100);
-                return [s.examName, `${s.score}`, `${s.totalQuestions}`, `${pct}%`, s.codingSubmitted ? (s.codingLanguage || 'Yes') : 'No', new Date(s.submittedAt).toLocaleString()];
-              });
-              // @ts-ignore
-              doc.autoTable({ head: [['Exam', 'Score', 'Questions', 'Percentage', 'Coding', 'Date']], body: rows, startY: 22 });
-              doc.save('my-results.pdf');
+              try {
+                const doc = new jsPDF();
+                
+                // Add logo
+                try {
+                  const logoImg = new Image();
+                  logoImg.crossOrigin = 'Anonymous';
+                  logoImg.src = window.location.origin + '/invigilatex-ai-icon.svg';
+                  await new Promise((resolve, reject) => {
+                    logoImg.onload = resolve;
+                    logoImg.onerror = reject;
+                    setTimeout(reject, 1000);
+                  });
+                  doc.addImage(logoImg, 'PNG', 90, 10, 15, 15);
+                } catch (err) {
+                  console.log('Logo loading skipped:', err);
+                }
+                
+                // Add centered branding header
+                doc.setFontSize(24);
+                doc.setTextColor(21, 159, 193); // Primary color
+                doc.text('InvigilateX-Ai', doc.internal.pageSize.width / 2, 32, { align: 'center' });
+                
+                doc.setFontSize(14);
+                doc.setTextColor(100, 100, 100);
+                doc.text('My Exam Results', doc.internal.pageSize.width / 2, 40, { align: 'center' });
+                
+                doc.setFontSize(10);
+                doc.setTextColor(150, 150, 150);
+                doc.text(`Generated on: ${new Date().toLocaleString()}`, doc.internal.pageSize.width / 2, 46, { align: 'center' });
+                
+                // Add a line separator
+                doc.setDrawColor(21, 159, 193);
+                doc.setLineWidth(0.5);
+                doc.line(14, 50, 196, 50);
+                
+                const rows = filteredList.map((s) => {
+                  const maxScore = (s.totalQuestions || 0) * 10;
+                  const pct = maxScore > 0 ? Math.round((s.score / maxScore) * 100) : 0;
+                  return [
+                    s.examName || 'N/A', 
+                    `${s.score || 0}`, 
+                    `${s.totalQuestions || 0}`, 
+                    `${pct}%`, 
+                    s.codingSubmitted ? (s.codingLanguage || 'Yes') : 'No', 
+                    s.submittedAt ? new Date(s.submittedAt).toLocaleString() : 'N/A'
+                  ];
+                });
+                autoTable(doc, { 
+                  head: [['Exam', 'Score', 'Questions', 'Percentage', 'Coding', 'Date']], 
+                  body: rows, 
+                  startY: 54,
+                  headStyles: {
+                    fillColor: [21, 159, 193],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                  },
+                  alternateRowStyles: {
+                    fillColor: [245, 245, 245],
+                  },
+                  styles: {
+                    fontSize: 9,
+                    cellPadding: 3,
+                  },
+                });
+                
+                // Add footer
+                const pageCount = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                  doc.setPage(i);
+                  doc.setFontSize(8);
+                  doc.setTextColor(150, 150, 150);
+                  doc.text(
+                    `InvigilateX-Ai - Page ${i} of ${pageCount}`,
+                    doc.internal.pageSize.width / 2,
+                    doc.internal.pageSize.height - 10,
+                    { align: 'center' }
+                  );
+                }
+                
+                doc.save('my-results.pdf');
+              } catch (error) {
+                console.error('PDF Export Error:', error);
+                alert('Failed to export PDF: ' + error.message);
+              }
             }}>Export PDF</Button>
 
 
@@ -538,18 +614,90 @@ const ResultPage = () => {
               <MenuItem value="failed">Failed</MenuItem>
             </TextField>
             <Button variant="contained" onClick={async () => {
-              const { jsPDF } = await import('jspdf');
-              await import('jspdf-autotable');
-              const doc = new jsPDF();
-              doc.text('Exam Results', 14, 16);
-              const rows = filteredResults.map((r) => {
-                const maxScore = (r.examDetails?.totalQuestions || 0) * 10;
-                const pct = maxScore > 0 ? Math.round((r.score / maxScore) * 100) : 0;
-                return [r.studentId?.name, r.studentId?.email, r.score, `${pct}%`, new Date(r.createdAt).toLocaleString()];
-              });
-              // @ts-ignore
-              doc.autoTable({ head: [['Student', 'Email', 'Score', 'Percentage', 'Submitted At']], body: rows, startY: 22 });
-              doc.save('exam-results.pdf');
+              try {
+                const doc = new jsPDF();
+                
+                // Add logo
+                try {
+                  const logoImg = new Image();
+                  logoImg.crossOrigin = 'Anonymous';
+                  logoImg.src = window.location.origin + '/invigilatex-ai-icon.svg';
+                  await new Promise((resolve, reject) => {
+                    logoImg.onload = resolve;
+                    logoImg.onerror = reject;
+                    setTimeout(reject, 1000);
+                  });
+                  doc.addImage(logoImg, 'PNG', 90, 10, 15, 15);
+                } catch (err) {
+                  console.log('Logo loading skipped:', err);
+                }
+                
+                // Add centered branding header
+                doc.setFontSize(24);
+                doc.setTextColor(21, 159, 193); // Primary color
+                doc.text('InvigilateX-Ai', doc.internal.pageSize.width / 2, 32, { align: 'center' });
+                
+                doc.setFontSize(14);
+                doc.setTextColor(100, 100, 100);
+                doc.text('Exam Results Report', doc.internal.pageSize.width / 2, 40, { align: 'center' });
+                
+                doc.setFontSize(10);
+                doc.setTextColor(150, 150, 150);
+                doc.text(`Generated on: ${new Date().toLocaleString()}`, doc.internal.pageSize.width / 2, 46, { align: 'center' });
+                
+                // Add a line separator
+                doc.setDrawColor(21, 159, 193);
+                doc.setLineWidth(0.5);
+                doc.line(14, 50, 196, 50);
+                
+                const rows = filteredResults.map((r) => {
+                  const maxScore = (r.examDetails?.totalQuestions || 0) * 10;
+                  const pct = maxScore > 0 ? Math.round((r.score / maxScore) * 100) : 0;
+                  return [
+                    r.studentId?.name || 'N/A', 
+                    r.studentId?.email || 'N/A', 
+                    r.score || 0, 
+                    `${pct}%`, 
+                    r.createdAt ? new Date(r.createdAt).toLocaleString() : 'N/A'
+                  ];
+                });
+                autoTable(doc, { 
+                  head: [['Student', 'Email', 'Score', 'Percentage', 'Submitted At']], 
+                  body: rows, 
+                  startY: 54,
+                  headStyles: {
+                    fillColor: [21, 159, 193],
+                    textColor: [255, 255, 255],
+                    fontStyle: 'bold',
+                  },
+                  alternateRowStyles: {
+                    fillColor: [245, 245, 245],
+                  },
+                  styles: {
+                    fontSize: 9,
+                    cellPadding: 3,
+                  },
+                });
+                
+                // Add footer
+                const pageCount = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                  doc.setPage(i);
+                  doc.setFontSize(8);
+                  doc.setTextColor(150, 150, 150);
+                  doc.text(
+                    `InvigilateX-Ai - Page ${i} of ${pageCount}`,
+                    doc.internal.pageSize.width / 2,
+                    doc.internal.pageSize.height - 10,
+                    { align: 'center' }
+                  );
+                }
+                
+                doc.save('exam-results.pdf');
+              } catch (error) {
+                console.error('PDF Export Error:', error);
+                alert('Failed to export PDF: ' + error.message);
+              }
             }}>Export PDF</Button>
 
           </Stack>

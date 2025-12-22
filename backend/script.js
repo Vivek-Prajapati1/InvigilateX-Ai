@@ -2,4 +2,4 @@
 
 // Write your code here...
 
-console.log("Hello World")
+console.log("hello world")
