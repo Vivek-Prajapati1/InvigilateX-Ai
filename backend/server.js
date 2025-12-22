@@ -129,18 +129,8 @@ if (process.env.NODE_ENV === "production") {
   
   // Serve static files
   app.use(express.static(frontendPath));
-  
-  // SPA fallback - serve index.html for non-API routes
-  // This must be the LAST route
-  app.get("*", (req, res) => {
-    // Don't serve index.html for API routes
-    if (req.url.startsWith('/api/')) {
-      return res.status(404).json({ message: 'API route not found' });
-    }
-    res.sendFile(path.join(frontendPath, "index.html"));
-  });
 } else {
-app.get("/*", (req, res) => {
+  app.get("/", (req, res) => {
     res.send("<h1>API Server is Running</h1><p>Environment: " + process.env.NODE_ENV + "</p>");
   });
 }
