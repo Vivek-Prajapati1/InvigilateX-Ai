@@ -93,24 +93,28 @@ const CreateExamPage = () => {
 
         console.log('Exam Response:', examResponse);
         
-        // Reset form with initial values that include one question
-        formik.resetForm({
-          values: {
-            examName: '',
-            totalQuestions: '',
-            duration: '',
-            maxAttempts: 1,
-            liveDate: '',
-            deadDate: '',
-            codingQuestions: [
-              {
-                question: '',
-                description: '',
-                duration: 30,
-              }
-            ],
-          }
-        });
+        // Only reset form for new exam creation, not for updates
+        if (!examId) {
+          // Reset form with initial values that include one question
+          formik.resetForm({
+            values: {
+              examName: '',
+              totalQuestions: '',
+              duration: '',
+              maxAttempts: 1,
+              liveDate: '',
+              deadDate: '',
+              codingQuestions: [
+                {
+                  question: '',
+                  description: '',
+                  duration: 30,
+                }
+              ],
+            }
+          });
+        }
+        // For updates, keep the form as-is to show the updated values
 
       } catch (err) {
         console.error('Exam Operation Error:', err);
