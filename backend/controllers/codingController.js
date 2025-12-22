@@ -198,50 +198,41 @@ const getExamCodingQuestion = asyncHandler(async (req, res) => {
     throw new Error("Exam ID is required");
   }
 
-  try {
-    // Find the exam by its examId (UUID) field
-    const exam = await Exam.findOne({ examId });
-    console.log("getExamCodingQuestion - Exam query result:", exam);
+  // Find the exam by its examId (UUID) field
+  const exam = await Exam.findOne({ examId });
+  console.log("getExamCodingQuestion - Exam query result:", exam);
 
-    if (!exam) {
-      res.status(404);
-      throw new Error(`No exam found with ID: ${examId}`);
-    }
-
-    // Check if the exam has coding questions
-    let codingQuestions = [];
-    
-    // Handle both old format (single codingQuestion) and new format (codingQuestions array)
-    if (exam.codingQuestions && exam.codingQuestions.length > 0) {
-      codingQuestions = exam.codingQuestions;
-    } else if (exam.codingQuestion && exam.codingQuestion.question) {
-      // Backward compatibility - convert single question to array
-      codingQuestions = [exam.codingQuestion];
-    }
-
-    if (codingQuestions.length === 0) {
-      res.status(404);
-      throw new Error(`No coding question found for exam: ${examId}`);
-    }
-
-    // For teachers, check if they own this exam
-    if (req.user.role === 'teacher' && exam.createdBy.toString() !== req.user._id.toString()) {
-      res.status(403);
-      throw new Error("Not authorized to view coding questions for this exam");
-    }
-
-    res.status(200).json({
-      success: true,
-      data: codingQuestions, // Return all coding questions as an array
-    });
-  } catch (error) {
-    console.error("Error fetching coding question:", error);
-    res.status(error.statusCode || 500).json({
-      success: false,
-      message: error.message,
-      details: error.stack,
-    });
+  if (!exam) {
+    res.status(404);
+    throw new Error(`No exam found with ID: ${examId}`);
   }
+
+  // Check if the exam has coding questions
+  let codingQuestions = [];
+  
+  // Handle both old format (single codingQuestion) and new format (codingQuestions array)
+  if (exam.codingQuestions && exam.codingQuestions.length > 0) {
+    codingQuestions = exam.codingQuestions;
+  } else if (exam.codingQuestion && exam.codingQuestion.question) {
+    // Backward compatibility - convert single question to array
+    codingQuestions = [exam.codingQuestion];
+  }
+
+  if (codingQuestions.length === 0) {
+    res.status(404);
+    throw new Error(`No coding question found for exam: ${exam.examName || examId}`);
+  }
+
+  // For teachers, check if they own this exam
+  if (req.user.role === 'teacher' && exam.createdBy.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error("Not authorized to view coding questions for this exam");
+  }
+
+  res.status(200).json({
+    success: true,
+    data: codingQuestions, // Return all coding questions as an array
+  });
 });
 
 export {
