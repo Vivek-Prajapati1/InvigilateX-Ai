@@ -127,6 +127,9 @@ app.use(notFound);
 app.use(errorHandler);
 
 // Server Start
-app.listen(port, () => {
-  console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${port}`);
+const PORT = process.env.PORT || 5001;
+const HOST = '0.0.0.0'; // Important for Render deployment
+
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on ${HOST}:${PORT}`);
 });
