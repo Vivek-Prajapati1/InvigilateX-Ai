@@ -67,6 +67,9 @@ const getExamById = asyncHandler(async (req, res) => {
 // @route POST /api/exams
 // @access Private (admin)
 const createExam = asyncHandler(async (req, res) => {
+  console.log('=== CREATE EXAM REQUEST ===');
+  console.log('Full request body:', JSON.stringify(req.body, null, 2));
+  
   const { examName, totalQuestions, duration, maxAttempts, liveDate, deadDate, codingQuestions, codingQuestion } = req.body;
   
   console.log('Creating exam with data:', { examName, totalQuestions, duration, maxAttempts, liveDate, deadDate, codingQuestions, codingQuestion });
@@ -105,6 +108,9 @@ const createExam = asyncHandler(async (req, res) => {
 // @route PUT /api/exams/exam/:examId
 // @access Private (teacher/admin)
 const updateExam = asyncHandler(async (req, res) => {
+  console.log('=== UPDATE EXAM REQUEST ===');
+  console.log('Full request body:', JSON.stringify(req.body, null, 2));
+  
   const { examName, totalQuestions, duration, maxAttempts, liveDate, deadDate, codingQuestions, codingQuestion } = req.body;
   const paramExamId = req.params.examId;
   let exam = null;
