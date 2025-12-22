@@ -67,18 +67,23 @@ const getExamById = asyncHandler(async (req, res) => {
 // @route POST /api/exams
 // @access Private (admin)
 const createExam = asyncHandler(async (req, res) => {
-  const { examName, totalQuestions, duration, liveDate, deadDate, codingQuestions, codingQuestion } = req.body;
+  const { examName, totalQuestions, duration, maxAttempts, liveDate, deadDate, codingQuestions, codingQuestion } = req.body;
+  
+  console.log('Creating exam with data:', { examName, totalQuestions, duration, maxAttempts, liveDate, deadDate, codingQuestions, codingQuestion });
 
   // Handle backward compatibility - convert single codingQuestion to array
   let finalCodingQuestions = codingQuestions;
   if (!codingQuestions && codingQuestion) {
     finalCodingQuestions = [codingQuestion];
   }
+  
+  console.log('Final coding questions to save:', finalCodingQuestions);
 
   const exam = new Exam({
     examName,
     totalQuestions,
     duration,
+    maxAttempts: maxAttempts || 1, // Default to 1 if not provided
     liveDate,
     deadDate,
     codingQuestions: finalCodingQuestions,
@@ -86,6 +91,7 @@ const createExam = asyncHandler(async (req, res) => {
   });
 
   const createdExam = await exam.save();
+  console.log('Exam created successfully:', createdExam._id);
 
   if (createdExam) {
     res.status(201).json(createdExam);
@@ -126,6 +132,8 @@ const updateExam = asyncHandler(async (req, res) => {
       throw new Error("Not authorized to update this exam");
     }
     
+    console.log('Updating exam with data:', { examName, totalQuestions, duration, maxAttempts, liveDate, deadDate, codingQuestions, codingQuestion });
+    
     exam.examName = examName || exam.examName;
     exam.totalQuestions = totalQuestions || exam.totalQuestions;
     exam.duration = duration || exam.duration;
@@ -135,13 +143,16 @@ const updateExam = asyncHandler(async (req, res) => {
     
     // Handle backward compatibility - prefer codingQuestions array over single codingQuestion
     if (codingQuestions) {
+      console.log('Updating with codingQuestions array:', codingQuestions);
       exam.codingQuestions = codingQuestions;
     } else if (codingQuestion) {
+      console.log('Updating with single codingQuestion:', codingQuestion);
       exam.codingQuestions = [codingQuestion];
     }
 
     const updatedExam = await exam.save();
     console.log('Exam updated successfully:', updatedExam._id);
+    console.log('Saved coding questions:', updatedExam.codingQuestions);
     res.status(200).json(updatedExam);
   } else {
     console.log('Exam not found for update with ID:', paramExamId);
