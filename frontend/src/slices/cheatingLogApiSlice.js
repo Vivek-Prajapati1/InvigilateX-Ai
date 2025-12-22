@@ -9,14 +9,14 @@ export const cheatingLogApiSlice = apiSlice.injectEndpoints({
     // Get cheating logs for a specific exam
     getCheatingLogs: builder.query({
       query: (examId) => ({
-        url: `${CHEATING_LOGS_URL}/cheatingLogs/${examId}`,
+        url: `${CHEATING_LOGS_URL}/cheating-logs/${examId}`,
         method: 'GET',
       }),
     }),
     // Save a new cheating log entry for an exam
     saveCheatingLog: builder.mutation({
       query: (data) => ({
-        url: `${CHEATING_LOGS_URL}/cheatingLogs`,
+        url: `${CHEATING_LOGS_URL}/cheating-logs`,
         method: 'POST',
         body: data,
       }),
