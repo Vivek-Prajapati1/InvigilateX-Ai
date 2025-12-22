@@ -140,7 +140,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(frontendPath, "index.html"));
   });
 } else {
-  app.get("/", (req, res) => {
+app.get("/*", (req, res) => {
     res.send("<h1>API Server is Running</h1><p>Environment: " + process.env.NODE_ENV + "</p>");
   });
 }
