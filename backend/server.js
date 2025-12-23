@@ -129,10 +129,6 @@ if (process.env.NODE_ENV === "production") {
   // Catch-all route for client-side routing (SPA)
   // This must come after API routes but before error handlers
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(frontendPath, "index.html"));
-  });
-} else {
-  app.get("/", (req, res) => {
     res.send("<h1>API Server is Running</h1><p>Environment: " + process.env.NODE_ENV + "</p>");
   });
 }
