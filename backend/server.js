@@ -121,14 +121,18 @@ console.log("All routes registered successfully!");
 
 // Static Files (Production) - must be BEFORE error handlers
 if (process.env.NODE_ENV === "production") {
-  const frontendPath = path.resolve(__dirname, "../../frontend/dist");
+  // const frontendPath = path.resolve(__dirname, "../../frontend/dist");
   
   // Serve static files
-  app.use(express.static(frontendPath));
+  // app.use(express.static(frontendPath));
   
   // Catch-all route for client-side routing (SPA)
   // This must come after API routes but before error handlers
-  app.get("*", (req, res) => {
+  app.get("/", (req, res) => {
+    res.send("<h1>API Server is Running</h1><p>Environment: " + process.env.NODE_ENV + "</p>");
+  });
+} else {
+  app.get("/", (req, res) => {
     res.send("<h1>API Server is Running</h1><p>Environment: " + process.env.NODE_ENV + "</p>");
   });
 }
