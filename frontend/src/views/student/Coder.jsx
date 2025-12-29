@@ -532,13 +532,13 @@ export default function Coder() {
     let apiUrl;
     switch (language) {
       case "python":
-        apiUrl = "http://localhost:5001/run-python";
+        apiUrl = "/run-python";
         break;
       case "java":
-        apiUrl = "http://localhost:5001/run-java";
+        apiUrl = "/run-java";
         break;
       case "javascript":
-        apiUrl = "http://localhost:5001/run-javascript";
+        apiUrl = "/run-javascript";
         break;
       default:
         setIsRunning(false);
