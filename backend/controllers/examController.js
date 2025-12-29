@@ -382,7 +382,7 @@ const submitExam = asyncHandler(async (req, res) => {
 });
 
 // @desc Get a single student's exam result for a specific exam
-// @route GET /api/exams/results/:examId/:studentId
+// @route GET /api/exams/results/student/:examId/:studentId
 // @access Private (teacher/student)
 const getStudentExamResult = asyncHandler(async (req, res) => {
   console.log("***Entering getStudentExamResult controller***");
@@ -390,28 +390,38 @@ const getStudentExamResult = asyncHandler(async (req, res) => {
   const { examId: paramExamId, studentId: paramStudentId } = req.params;
   console.log('Received paramExamId:', paramExamId);
   console.log('Received paramStudentId:', paramStudentId);
+  console.log('ParamExamId type:', typeof paramExamId);
+  console.log('ParamStudentId type:', typeof paramStudentId);
 
   try {
     // Validate if paramStudentId is a valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(paramStudentId)) {
+      console.log('Invalid student ID format:', paramStudentId);
       res.status(400);
       throw new Error("Invalid Student ID format");
     }
 
     // Find the exam by its examId (UUID or _id)
     let exam = null;
+    console.log('Checking if paramExamId is valid ObjectId...');
     if (mongoose.Types.ObjectId.isValid(paramExamId)) {
+      console.log('paramExamId is valid ObjectId, searching by _id...');
       exam = await Exam.findById(paramExamId);
+      console.log('Found exam by _id:', exam ? exam._id : 'Not found');
     }
     if (!exam) {
+      console.log('Exam not found by _id, searching by UUID examId field...');
       exam = await Exam.findOne({ examId: paramExamId });
+      console.log('Found exam by UUID:', exam ? exam.examId : 'Not found');
     }
 
     if (!exam) {
+      console.log('Exam not found with ID:', paramExamId);
       res.status(404);
       throw new Error("Exam not found for results");
     }
     console.log('Found exam for results (MongoDB _id):', exam._id);
+    console.log('Exam UUID:', exam.examId);
 
     // Find the specific submission for the student and exam
     const submission = await Submission.findOne({ 
