@@ -198,7 +198,7 @@ const getExamCodingQuestion = asyncHandler(async (req, res) => {
     throw new Error("Exam ID is required");
   }
 
-  // Find the exam by its examId (UUID) field
+  // Find the exam by its examId (UUID) field to verify it exists
   const exam = await Exam.findOne({ examId });
   console.log("getExamCodingQuestion - Exam query result:", exam);
 
@@ -207,20 +207,34 @@ const getExamCodingQuestion = asyncHandler(async (req, res) => {
     throw new Error(`No exam found with ID: ${examId}`);
   }
 
-  // Check if the exam has coding questions
-  let codingQuestions = [];
+  // Find coding questions from the CodingQuestion collection
+  const codingQuestions = await CodingQuestion.find({ examId: examId.toString() })
+    .select("-submittedAnswer")
+    .populate("teacher", "name email");
   
-  // Handle both old format (single codingQuestion) and new format (codingQuestions array)
-  if (exam.codingQuestions && exam.codingQuestions.length > 0) {
-    codingQuestions = exam.codingQuestions;
-  } else if (exam.codingQuestion && exam.codingQuestion.question) {
-    // Backward compatibility - convert single question to array
-    codingQuestions = [exam.codingQuestion];
-  }
+  console.log("getExamCodingQuestion - Found coding questions:", codingQuestions.length);
 
+  // If no coding questions found in CodingQuestion collection, check exam model for backward compatibility
   if (codingQuestions.length === 0) {
-    res.status(404);
-    throw new Error(`No coding question found for exam: ${exam.examName || examId}`);
+    let embeddedQuestions = [];
+    
+    // Handle both old format (single codingQuestion) and new format (codingQuestions array)
+    if (exam.codingQuestions && exam.codingQuestions.length > 0) {
+      embeddedQuestions = exam.codingQuestions;
+    } else if (exam.codingQuestion && exam.codingQuestion.question) {
+      // Backward compatibility - convert single question to array
+      embeddedQuestions = [exam.codingQuestion];
+    }
+
+    if (embeddedQuestions.length === 0) {
+      res.status(404);
+      throw new Error(`No coding question found for exam: ${exam.examName || examId}`);
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: embeddedQuestions,
+    });
   }
 
   // For teachers, check if they own this exam
