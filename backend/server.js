@@ -38,15 +38,20 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "https://invigilate-x-ai.vercel.app",
+  "https://invigilatex-ai.onrender.com", // Render backend URL
+  process.env.FRONTEND_URL, // Allow dynamic frontend URL from env
 ];
 
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
+      // Filter out undefined values
+      const validOrigins = allowedOrigins.filter(o => o);
+      if (validOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log(`CORS blocked origin: ${origin}`);
         callback(new Error("Not allowed by CORS"));
       }
     },
