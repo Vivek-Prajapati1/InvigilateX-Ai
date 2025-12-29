@@ -305,7 +305,9 @@ export default function Coder() {
     const fetchCodingQuestion = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`/api/coding/question/exam/${examId}`);
+        const response = await axios.get(`/api/coding/question/exam/${examId}`, {
+          withCredentials: true,
+        });
         if (
           response.data.success &&
           response.data.data &&
