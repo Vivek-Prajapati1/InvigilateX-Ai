@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import axios from "axios";
 import WebCam from "../student/Components/WebCam";
+
+// API Base URL from environment variable
+const API_BASE_URL = import.meta.env.VITE_BACKEND_API_URL || '';
 import {
   Button,
   Box,
@@ -172,7 +175,7 @@ export default function Coder() {
           // Persist coding answer if available (optional)
           if (code && language && examId) {
             await axios.post(
-              "/api/coding/submit",
+              `${API_BASE_URL}/api/coding/submit`,
               { code, language, examId },
               { withCredentials: true }
             );
@@ -305,7 +308,7 @@ export default function Coder() {
     const fetchCodingQuestion = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(`/api/coding/question/exam/${examId}`, {
+        const response = await axios.get(`${API_BASE_URL}/api/coding/question/exam/${examId}`, {
           withCredentials: true,
         });
         if (
@@ -543,7 +546,7 @@ export default function Coder() {
     }
 
     try {
-      const response = await axios.post(apiUrl, { code });
+      const response = await axios.post(`${API_BASE_URL}${apiUrl}`, { code });
       console.log("API Response:", response.data);
       setOutput(`✅ Execution completed:\n\n${response.data.output}`);
       toast.success("Code executed successfully!");
@@ -583,7 +586,7 @@ export default function Coder() {
       console.log("Submitting coding code with data:", codeSubmissionData);
 
       const response = await axios.post(
-        "/api/coding/submit",
+        `${API_BASE_URL}/api/coding/submit`,
         codeSubmissionData,
         {
           withCredentials: true,

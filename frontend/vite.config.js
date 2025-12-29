@@ -39,11 +39,13 @@ export default defineConfig({
   assetsInclude: ['**/*.svg'],
   server: {
     port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5001',
-        changeOrigin: true,
-      },
-    },
+    // Proxy disabled - using direct backend URL from .env (VITE_BACKEND_API_URL)
+    // Uncomment below for local backend development:
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:5001',
+    //     changeOrigin: true,
+    //   },
+    // },
   },
 }); 
