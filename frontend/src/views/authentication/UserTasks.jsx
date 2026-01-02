@@ -31,10 +31,14 @@ import {
   AssignmentTurnedIn,
   Bolt,
   CheckCircle,
+  EventAvailable,
   FilterList,
   Flag,
   PendingActions,
+  RocketLaunch,
   Refresh,
+  TaskAlt,
+  WarningAmber,
 } from '@mui/icons-material';
 import PageContainer from 'src/components/container/PageContainer';
 
@@ -218,6 +222,40 @@ const UserTasks = () => {
     return { total, completed, inProgress, overdue, dueSoon };
   }, [filteredByRole, isOverdue, daysUntilDue]);
 
+  const statItems = useMemo(
+    () => [
+      {
+        label: 'Total tasks',
+        value: stats.total,
+        icon: <TaskAlt />,
+        color: theme.palette.primary.main,
+        tone: alpha(theme.palette.primary.main, 0.1),
+      },
+      {
+        label: 'In progress',
+        value: stats.inProgress,
+        icon: <RocketLaunch />,
+        color: theme.palette.info.main,
+        tone: alpha(theme.palette.info.main, 0.12),
+      },
+      {
+        label: 'Completed',
+        value: stats.completed,
+        icon: <CheckCircle />,
+        color: theme.palette.success.main,
+        tone: alpha(theme.palette.success.main, 0.12),
+      },
+      {
+        label: 'Due soon',
+        value: stats.dueSoon,
+        icon: <EventAvailable />,
+        color: theme.palette.warning.main,
+        tone: alpha(theme.palette.warning.main, 0.14),
+      },
+    ],
+    [stats, theme],
+  );
+
   const resolvePriorityColor = (priority) => {
     if (priority === 'high') return theme.palette.error.main;
     if (priority === 'medium') return theme.palette.warning.main;
@@ -267,22 +305,6 @@ const UserTasks = () => {
     setNewTask({ title: '', description: '', dueDate: '', priority: 'medium' });
   };
 
-  const headerChip = (label, value, color) => (
-    <Chip
-      key={label}
-      label={`${label}: ${value}`}
-      icon={<CheckCircle fontSize="small" />}
-      sx={{
-        bgcolor: alpha(theme.palette[color].main, 0.1),
-        color: theme.palette[color].main,
-        borderColor: alpha(theme.palette[color].main, 0.3),
-        borderWidth: 1,
-        borderStyle: 'solid',
-        fontWeight: 700,
-      }}
-    />
-  );
-
   const upcoming = useMemo(() => {
     return [...filteredByRole]
       .filter((task) => task.status !== 'done')
@@ -307,118 +329,161 @@ const UserTasks = () => {
         <Card
           elevation={0}
           sx={{
-            mb: 3,
-            borderRadius: 3,
+            mb: 4,
+            borderRadius: 4,
             overflow: 'hidden',
-            background: 'linear-gradient(120deg, #5ac8d8 0%, #9c5db3 50%, #ef8fbf 100%)',
+            position: 'relative',
+            background: 'linear-gradient(120deg, #0ea5e9 0%, #7c3aed 45%, #ec4899 100%)',
             color: '#fff',
-            boxShadow: '0 10px 30px rgba(0,0,0,0.08)',
+            boxShadow: '0 16px 50px rgba(0,0,0,0.12)',
           }}
         >
-          <CardContent sx={{ py: 4 }}>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} md={8}>
+          <Box
+            sx={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 30%), radial-gradient(circle at 80% 0%, rgba(255,255,255,0.12), transparent 32%)',
+            }}
+          />
+          <CardContent sx={{ py: { xs: 3, md: 4 }, position: 'relative' }}>
+            <Grid container spacing={3} alignItems="center">
+              <Grid item xs={12} md={7}>
                 <Stack spacing={1.5}>
-                  <Typography variant="overline" sx={{ letterSpacing: 1.5, opacity: 0.85 }}>
+                  <Typography variant="overline" sx={{ letterSpacing: 2, opacity: 0.82 }}>
                     Personal Workspace
                   </Typography>
-                  <Typography variant="h4" fontWeight={800} sx={{ textShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
-                    {userInfo?.name ? `${userInfo.name.split(' ')[0]}'s Tasks` : 'My Tasks'}
-                  </Typography>
-                  <Typography variant="body1" sx={{ maxWidth: 720, opacity: 0.92 }}>
-                    Stay on top of exams, grading, and study routines. Use filters to focus on what matters today.
-                  </Typography>
-                  <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                    {headerChip('Total', stats.total, 'primary')}
-                    {headerChip('In Progress', stats.inProgress, 'secondary')}
-                    {headerChip('Completed', stats.completed, 'success')}
-                    {headerChip('Overdue', stats.overdue, 'error')}
-                    {headerChip('Due Soon', stats.dueSoon, 'warning')}
+                  <Stack direction="row" alignItems="center" spacing={1.5}>
+                    <Typography variant="h4" fontWeight={800} sx={{ textShadow: '0 3px 12px rgba(0,0,0,0.18)' }}>
+                      {userInfo?.name ? `${userInfo.name.split(' ')[0]}'s Tasks` : 'My Tasks'}
+                    </Typography>
+                    <Chip
+                      label={userRole === 'teacher' ? 'Teacher view' : 'Student view'}
+                      size="small"
+                      sx={{
+                        bgcolor: alpha('#ffffff', 0.18),
+                        color: '#fff',
+                        borderColor: alpha('#ffffff', 0.32),
+                        borderStyle: 'solid',
+                        borderWidth: 1,
+                        fontWeight: 700,
+                        letterSpacing: 0.5,
+                      }}
+                    />
                   </Stack>
+                  <Typography variant="body1" sx={{ maxWidth: 720, opacity: 0.93 }}>
+                    Stay on top of exams, grading, and study routines. Tune filters to spotlight what matters today.
+                  </Typography>
                 </Stack>
               </Grid>
-              <Grid item xs={12} md={4}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-end',
-                    gap: 1.5,
-                    flexWrap: 'wrap',
-                  }}
-                >
-                  <Chip
-                    label={userRole === 'teacher' ? 'Teacher view' : 'Student view'}
-                    color="default"
-                    sx={{
-                      bgcolor: alpha(theme.palette.common.white, 0.2),
-                      color: '#fff',
-                      fontWeight: 700,
-                      borderColor: alpha(theme.palette.common.white, 0.4),
-                      borderStyle: 'solid',
-                      borderWidth: 1,
-                    }}
-                  />
-                  <Avatar sx={{ bgcolor: '#fff', color: '#7b1fa2', width: 48, height: 48, fontWeight: 800 }}>
-                    {userInfo?.name ? userInfo.name.charAt(0).toUpperCase() : 'G'}
+              <Grid item xs={12} md={5}>
+                <Box display="flex" justifyContent={{ xs: 'flex-start', md: 'flex-end' }} alignItems="center" gap={2}>
+                  <Avatar sx={{ bgcolor: alpha('#ffffff', 0.16), color: '#fff', width: 52, height: 52, fontWeight: 800 }}>
+                    {userInfo?.name ? userInfo.name.charAt(0).toUpperCase() : 'U'}
                   </Avatar>
                 </Box>
               </Grid>
+            </Grid>
+
+            <Grid container spacing={2.5} sx={{ mt: 3 }}>
+              {statItems.map((item) => (
+                <Grid item xs={6} md={3} key={item.label}>
+                  <Box
+                    sx={{
+                      p: 2.2,
+                      borderRadius: 3,
+                      backgroundColor: alpha('#ffffff', 0.08),
+                      border: `1px solid ${alpha('#ffffff', 0.16)}`,
+                      backdropFilter: 'blur(4px)',
+                    }}
+                  >
+                    <Stack direction="row" spacing={1.5} alignItems="center">
+                      <Avatar sx={{ width: 40, height: 40, bgcolor: item.tone, color: item.color }}>
+                        {item.icon}
+                      </Avatar>
+                      <Box>
+                        <Typography variant="h5" fontWeight={800} sx={{ lineHeight: 1 }}>{item.value}</Typography>
+                        <Typography variant="caption" sx={{ opacity: 0.9 }}>
+                          {item.label}
+                        </Typography>
+                      </Box>
+                    </Stack>
+                  </Box>
+                </Grid>
+              ))}
             </Grid>
           </CardContent>
         </Card>
 
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
-            <Card elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
+            <Card elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}`, backgroundColor: alpha(theme.palette.primary.main, 0.01) }}>
               <CardContent>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems={{ xs: 'stretch', sm: 'center' }}>
-                  <TextField
-                    fullWidth
-                    placeholder="Search tasks"
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <FilterList fontSize="small" sx={{ color: 'text.disabled' }} />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <FormControl size="small" sx={{ minWidth: 140 }}>
-                    <InputLabel>Status</InputLabel>
-                    <Select
-                      label="Status"
-                      value={filterStatus}
-                      onChange={(e) => setFilterStatus(e.target.value)}
-                    >
-                      <MenuItem value="all">All</MenuItem>
-                      <MenuItem value="todo">To Do</MenuItem>
-                      <MenuItem value="in-progress">In Progress</MenuItem>
-                      <MenuItem value="done">Done</MenuItem>
-                      <MenuItem value="overdue">Overdue</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <FormControl size="small" sx={{ minWidth: 140 }}>
-                    <InputLabel>Priority</InputLabel>
-                    <Select
-                      label="Priority"
-                      value={priorityFilter}
-                      onChange={(e) => setPriorityFilter(e.target.value)}
-                    >
-                      <MenuItem value="all">All</MenuItem>
-                      <MenuItem value="high">High</MenuItem>
-                      <MenuItem value="medium">Medium</MenuItem>
-                      <MenuItem value="low">Low</MenuItem>
-                    </Select>
-                  </FormControl>
-                  <IconButton onClick={() => setFilterStatus('all')} color="primary">
-                    <Refresh />
-                  </IconButton>
-                </Stack>
+                <Box
+                  sx={{
+                    p: 2,
+                    borderRadius: 2,
+                    border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+                    backgroundColor: alpha(theme.palette.primary.main, 0.03),
+                  }}
+                >
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} alignItems={{ xs: 'stretch', sm: 'center' }}>
+                    <TextField
+                      fullWidth
+                      placeholder="Search tasks"
+                      value={search}
+                      onChange={(e) => setSearch(e.target.value)}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <FilterList fontSize="small" sx={{ color: 'text.disabled' }} />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                    <FormControl size="small" sx={{ minWidth: 140 }}>
+                      <InputLabel>Status</InputLabel>
+                      <Select
+                        label="Status"
+                        value={filterStatus}
+                        onChange={(e) => setFilterStatus(e.target.value)}
+                      >
+                        <MenuItem value="all">All</MenuItem>
+                        <MenuItem value="todo">To Do</MenuItem>
+                        <MenuItem value="in-progress">In Progress</MenuItem>
+                        <MenuItem value="done">Done</MenuItem>
+                        <MenuItem value="overdue">Overdue</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <FormControl size="small" sx={{ minWidth: 140 }}>
+                      <InputLabel>Priority</InputLabel>
+                      <Select
+                        label="Priority"
+                        value={priorityFilter}
+                        onChange={(e) => setPriorityFilter(e.target.value)}
+                      >
+                        <MenuItem value="all">All</MenuItem>
+                        <MenuItem value="high">High</MenuItem>
+                        <MenuItem value="medium">Medium</MenuItem>
+                        <MenuItem value="low">Low</MenuItem>
+                      </Select>
+                    </FormControl>
+                    <Tooltip title="Reset filters">
+                      <IconButton
+                        onClick={() => {
+                          setFilterStatus('all');
+                          setPriorityFilter('all');
+                          setSearch('');
+                        }}
+                        color="primary"
+                        sx={{ bgcolor: alpha(theme.palette.primary.main, 0.08) }}
+                      >
+                        <Refresh />
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
+                </Box>
 
-                <Divider sx={{ my: 2 }} />
+                <Divider sx={{ my: 2.5 }} />
 
                 <Stack spacing={2}>
                   {visibleTasks.length === 0 && (
@@ -454,7 +519,9 @@ const UserTasks = () => {
                             : theme.palette.divider,
                           backgroundColor: overdue
                             ? alpha(theme.palette.error.main, 0.03)
-                            : alpha(theme.palette.primary.main, 0.015),
+                            : alpha(theme.palette.primary.main, 0.03),
+                          borderLeft: `6px solid ${overdue ? theme.palette.error.main : theme.palette.primary.main}`,
+                          boxShadow: '0 10px 24px rgba(0,0,0,0.05)',
                         }}
                       >
                         <CardContent>
@@ -519,8 +586,13 @@ const UserTasks = () => {
                                             ? 'Due today'
                                             : `Due in ${dueIn} day${dueIn === 1 ? '' : 's'}`
                                     }
-                                    color={overdue ? 'error' : 'default'}
-                                    variant={overdue ? 'filled' : 'outlined'}
+                                      color={overdue ? 'error' : 'primary'}
+                                      variant={overdue ? 'filled' : 'outlined'}
+                                      sx={{
+                                        bgcolor: overdue
+                                          ? alpha(theme.palette.error.main, 0.12)
+                                          : alpha(theme.palette.primary.main, 0.08),
+                                      }}
                                   />
                                 </Stack>
                               </Box>
@@ -571,12 +643,15 @@ const UserTasks = () => {
 
           <Grid item xs={12} md={4}>
             <Stack spacing={3}>
-              <Card elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}` }}>
+              <Card elevation={0} sx={{ borderRadius: 3, border: `1px solid ${theme.palette.divider}`, backgroundColor: alpha(theme.palette.secondary.main, 0.03) }}>
                 <CardContent>
                   <Stack direction="row" justifyContent="space-between" alignItems="center" mb={1.5}>
                     <Typography variant="h6" fontWeight={800}>Quick Add</Typography>
-                    <Chip label="Local only" size="small" color="default" variant="outlined" />
+                    <Chip label="Local only" size="small" color="secondary" variant="outlined" />
                   </Stack>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 1.5 }}>
+                    Jot down personal todos; they stay on this device until you wire an API.
+                  </Typography>
                   <TextField
                     fullWidth
                     label="Title"
@@ -617,6 +692,7 @@ const UserTasks = () => {
                   </Stack>
                   <Button
                     variant="contained"
+                    color="secondary"
                     startIcon={<Add />}
                     onClick={handleAddTask}
                     fullWidth
