@@ -5,6 +5,7 @@ const generateToken = (res, userId) => {
     expiresIn: "30d",
   });
 
+  
   const isProduction = process.env.NODE_ENV === "production";
   
   const cookieOptions = {
